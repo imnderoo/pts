@@ -1,0 +1,10 @@
+.DS_Store
+.settings/
+target/
+target-eclipse/
+test/
+*.iws
+*.jar
+*.csv
+*.dat
+*.war
