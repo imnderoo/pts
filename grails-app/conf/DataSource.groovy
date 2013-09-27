@@ -30,7 +30,9 @@ environments {
         dataSource {
 			  username = "root"
 			  url = "jdbc:mysql://localhost/ptrack"
-			dbCreate = "create-drop"
+			  password = "1000anag3r"
+			  
+			  dbCreate = "create-drop"
 //			  dbCreate = "update"
 			             
         }
