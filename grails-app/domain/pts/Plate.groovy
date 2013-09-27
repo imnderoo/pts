@@ -8,24 +8,26 @@ class Plate {
 	String pcrCondition
 	String createdBy
 	String chipId
-	String createdDate
+	Date createdDate
 	
 	PlateType plateType // Many to one
-	Project project 	// Many to one
+	//Project project 	// Many to one
 	
 	// Use belongs to if you want ON DELETE CASCADE
 	// static belongsTo = [parentPlate: Plate] 
-	static hasMany = [childrenPlate: Plate, sampleInPlate: SampleInPlate]
+	static hasMany = [childrenPlate: Plate, samplesInPlate: SamplesInPlate]
+	static belongsTo = [project: Project]
 	
     static constraints = {
 		project nullalbe: false
 		
 		intPlateId size: 1..8, blank: false, nullable: false, unique: true
-		extPlateId size: 1..8, blank: false, nullable: false, unique: true
+		// ExtPlateId is not set to unique because we may test duplicates of the same plate (under different conditions)
+		extPlateId size: 1..8, blank: false, nullable: false
 		plateType nullable: false
 		
-		createdBy size: 1..24
-		createdDate nullable: true
+		createdBy size: 1..24, nullable: false
+		createdDate nullable: false
 		
 		childrenPlate nullable: true
 		
