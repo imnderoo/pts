@@ -35,7 +35,7 @@ class InvestigatorController {
         def investigatorInstance = Investigator.get(id)
         if (!investigatorInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
-            redirect(action: "list")
+			redirect(action: "list")
             return
         }
 
