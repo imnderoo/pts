@@ -1,14 +1,14 @@
-<%@ page import="pts.Sample" %>
+<%@ page import="pts.SamplesInPlate" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="layout" content="main">
 <g:set var="entityName"
-	value="${message(code: 'sample.label', default: 'Sample')}" />
+	value="${message(code: 'samplesInPlate.label', default: 'SamplesInPlate')}" />
 <title><g:message code="default.edit.label" args="[entityName]" /></title>
 </head>
 <body>
-	<div id="edit-sample"
+	<div id="edit-samplesInPlate"
 		class="content scaffold-edit" role="main">
 		<h1>
 			<g:message code="default.edit.label" args="[entityName]" />
@@ -16,9 +16,9 @@
 		<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 		</g:if>
-		<g:hasErrors bean="${sampleInstance}">
+		<g:hasErrors bean="${samplesInPlateInstance}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${sampleInstance}" var="error">
+				<g:eachError bean="${samplesInPlateInstance}" var="error">
 					<li
 						<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
 							error="${error}" /></li>
@@ -27,8 +27,8 @@
 		</g:hasErrors>
 		<g:form class="form-horizontal" method="post"
 			>
-			<g:hiddenField name="id" value="${sampleInstance?.id}" />
-			<g:hiddenField name="version" value="${sampleInstance?.version}" />
+			<g:hiddenField name="id" value="${samplesInPlateInstance?.id}" />
+			<g:hiddenField name="version" value="${samplesInPlateInstance?.version}" />
 			<fieldset class="form">
 				<g:render template="form" />
 			</fieldset>
