@@ -36,8 +36,8 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Sample <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><g:link controller="Sample" action="list">List Sample</g:link></li>
-						<li><g:link controller="Sample" action="create">New Sample</g:link></li>
+						<li><g:link controller="SamplesInPlate" action="list">List Sample</g:link></li>
+						<li><g:link controller="SamplesInPlate" action="create">New Sample</g:link></li>
 					</ul></li>
 
 			</ul>
