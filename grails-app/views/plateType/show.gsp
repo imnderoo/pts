@@ -11,12 +11,12 @@
 </head>
 <body>
 	<div id="show-plateType"
-		class="content scaffold-show" role="main">
+		class="content span8 scaffold-show" role="main">
 		<h1>
 			<g:message code="default.show.label" args="[entityName]" />
 		</h1>
 		<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<div class="alert alert-info" role="status">${flash.message}</div>
 		</g:if>
 
 		<g:form class="form-horizontal">
@@ -66,26 +66,6 @@
 					
 				</div>
 				</g:if>
-			
-				<g:if test="${plateTypeInstance?.plate}">
-				
-				<div class="control-group">
-
-					<label id="plate-label" class="control-label"><g:message code="plateType.plate.label" default="Plate" /></label>
-					
-					<div class="controls">
-					
-						<g:each in="${plateTypeInstance.plate}" var="p">
-						<span class="uneditable-input" aria-labelledby="plate-label"><g:link controller="plate" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-					</div>
-					
-				</div>
-				</g:if>
-			
-
-
 	
 			<fieldset class="buttons">
 				<div class="control-groups">

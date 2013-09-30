@@ -1,18 +1,30 @@
 <%@ page import="pts.Plate"%>
 
-<h5>Upload Plate Manifest:</h5>
+<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">
+	<div class="control-group">
 
-<div class="fileupload fileupload-new" data-provides="fileupload">
-	<div class="input-append">
-		<span class="uneditable-input fileupload-preview"></span>
-		
-		<span class="btn btn-file"> <span class="fileupload-new">Select
-				file</span> <span class="fileupload-exists">Change</span> <input
-			type="file" name="file" /></span><a href="#" class="btn fileupload-exists"
-			data-dismiss="fileupload">Remove</a>
+		<label class="control-label" for="intPlateId">
+			<g:message code="plate.intPlateId.label" default="Int Plate Id" />
+			<span class="required-indicator">*</span>
+		</label>
+		<div class="controls">
+			<g:textField name="intPlateId" maxlength="8" required="" value="${plateInstance?.intPlateId}" />
+		</div>
 	</div>
 </div>
 
+<div class="control-group">
+	<label class="control-label">Plate Manifest:</label>
+	<div class="controls">
+		<div class="fileupload fileupload-new" data-provides="fileupload">
+			<div class="input-append">
+				<span class="uneditable-input fileupload-preview"></span> <span class="btn btn-file"> <span class="fileupload-new">Select
+						file</span> <span class="fileupload-exists">Change</span> <input type="file" name="file" /></span><a href="#"
+					class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+			</div>
+		</div>
+	</div>
+</div>
 <%--				<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'project', 'error')} required">--%>
 <%--					<div class="control-group">--%>
 <%--				--%>
@@ -26,18 +38,7 @@
 <%--					</div>--%>
 <%--				</div>--%>
 <%--			--%>
-<%--				<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">--%>
-<%--					<div class="control-group">--%>
-<%--				--%>
-<%--						<label class="control-label" for="intPlateId">--%>
-<%--							<g:message code="plate.intPlateId.label" default="Int Plate Id" />--%>
-<%--							<span class="required-indicator">*</span>--%>
-<%--						</label>--%>
-<%--						<div class="controls">--%>
-<%--							<g:textField name="intPlateId" maxlength="8" required="" value="${plateInstance?.intPlateId}"/>--%>
-<%--						</div>--%>
-<%--					</div>--%>
-<%--				</div>--%>
+
 <%--			--%>
 <%--				<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'extPlateId', 'error')} required">--%>
 <%--					<div class="control-group">--%>

@@ -11,12 +11,12 @@
 </head>
 <body>
 	<div id="show-plate"
-		class="content scaffold-show" role="main">
+		class="content span8 scaffold-show" role="main">
 		<h1>
 			<g:message code="default.show.label" args="[entityName]" />
 		</h1>
 		<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<div class="alert alert-info" role="status">${flash.message}</div>
 		</g:if>
 
 		<g:form class="form-horizontal">
@@ -189,16 +189,16 @@
 				</div>
 				</g:if>
 			
-				<g:if test="${plateInstance?.sampleInPlate}">
+				<g:if test="${plateInstance?.samplesInPlate}">
 				
 				<div class="control-group">
 
-					<label id="sampleInPlate-label" class="control-label"><g:message code="plate.sampleInPlate.label" default="Sample In Plate" /></label>
+					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samplesInPlate.label" default="Sample In Plate" /></label>
 					
 					<div class="controls">
 					
-						<g:each in="${plateInstance.sampleInPlate}" var="s">
-						<span class="uneditable-input" aria-labelledby="sampleInPlate-label"><g:link controller="sampleInPlate" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+						<g:each in="${plateInstance.samplesInPlate}" var="s">
+						<span class="uneditable-input" aria-labelledby="samplesInPlate-label"><g:link controller="samplesInPlate" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 					</div>

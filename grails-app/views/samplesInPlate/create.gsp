@@ -7,10 +7,10 @@
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<div id="create-samplesInPlate" class="content scaffold-create" role="main">
+		<div id="create-samplesInPlate" class="content span8 scaffold-create" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<div class="alert alert-info" role="status">${flash.message}</div>
 			</g:if>
 			<g:hasErrors bean="${samplesInPlateInstance}">
 			<ul class="errors" role="alert">
