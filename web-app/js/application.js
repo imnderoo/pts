@@ -5,5 +5,10 @@ if (typeof jQuery !== 'undefined') {
 		}).ajaxStop(function() {
 			$(this).fadeOut();
 		});
+
+		$('.form-load').submit(function() {
+			$('#spinner').fadeIn();
+		});
+
 	})(jQuery);
 }
