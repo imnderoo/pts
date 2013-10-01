@@ -189,16 +189,16 @@
 				</div>
 				</g:if>
 			
-				<g:if test="${plateInstance?.samplesInPlate}">
+				<g:if test="${plateInstance?.samples}">
 				
 				<div class="control-group">
 
-					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samplesInPlate.label" default="Sample In Plate" /></label>
+					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samples.label" default="Sample In Plate" /></label>
 					
 					<div class="controls">
 					
-						<g:each in="${plateInstance.samplesInPlate}" var="s">
-						<span class="uneditable-input" aria-labelledby="samplesInPlate-label"><g:link controller="samplesInPlate" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+						<g:each in="${plateInstance.samples}" var="s">
+						<span class="uneditable-input" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 					</div>
