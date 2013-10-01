@@ -1,4 +1,4 @@
-<%@ page import="pts.SamplesInPlate" %>
+<%@ page import="pts.Sample" %>
 <!DOCTYPE html>
 <html>
 <head>

@@ -2,7 +2,7 @@ package pts
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class SamplesInPlateController {
+class SampleController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -12,15 +12,15 @@ class SamplesInPlateController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [samplesInPlateInstanceList: SamplesInPlate.list(params), samplesInPlateInstanceTotal: SamplesInPlate.count()]
+        [samplesInPlateInstanceList: Sample.list(params), samplesInPlateInstanceTotal: Sample.count()]
     }
 
     def create() {
-        [samplesInPlateInstance: new SamplesInPlate(params)]
+        [samplesInPlateInstance: new Sample(params)]
     }
 
     def save() {
-        def samplesInPlateInstance = new SamplesInPlate(params)
+        def samplesInPlateInstance = new Sample(params)
         if (!samplesInPlateInstance.save(flush: true)) {
             render(view: "create", model: [samplesInPlateInstance: samplesInPlateInstance])
             return
@@ -31,7 +31,7 @@ class SamplesInPlateController {
     }
 
     def show(Long id) {
-        def samplesInPlateInstance = SamplesInPlate.get(id)
+        def samplesInPlateInstance = Sample.get(id)
         if (!samplesInPlateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
             redirect(action: "list")
@@ -42,7 +42,7 @@ class SamplesInPlateController {
     }
 
     def edit(Long id) {
-        def samplesInPlateInstance = SamplesInPlate.get(id)
+        def samplesInPlateInstance = Sample.get(id)
         if (!samplesInPlateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
             redirect(action: "list")
@@ -53,7 +53,7 @@ class SamplesInPlateController {
     }
 
     def update(Long id, Long version) {
-        def samplesInPlateInstance = SamplesInPlate.get(id)
+        def samplesInPlateInstance = Sample.get(id)
         if (!samplesInPlateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
             redirect(action: "list")
@@ -82,7 +82,7 @@ class SamplesInPlateController {
     }
 
     def delete(Long id) {
-        def samplesInPlateInstance = SamplesInPlate.get(id)
+        def samplesInPlateInstance = Sample.get(id)
         if (!samplesInPlateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
             redirect(action: "list")

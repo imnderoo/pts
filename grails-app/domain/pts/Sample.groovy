@@ -1,9 +1,9 @@
 package pts
 
-class SamplesInPlate {
-	
-	// Are extSampleId and intSampleId the same thing? 
-	// For now, assume that extSampleId is assigned by 
+class Sample {
+
+	// Are extSampleId and intSampleId the same thing?
+	// For now, assume that extSampleId is assigned by
 
 	String sampleId
 	String well
@@ -13,6 +13,7 @@ class SamplesInPlate {
 	String dnaType
 	String dnaExtract
 	String comment
+	Plate plate
 
 	static belongsTo = [plate:Plate]
 
@@ -25,7 +26,7 @@ class SamplesInPlate {
 		dnaType size: 1..24
 		dnaExtract size: 1..24
 		comment size: 1..24
-		
+
 		sampleId (unique: 'plate')
 	}
 
