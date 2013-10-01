@@ -1,0 +1,40 @@
+/* Sortable Columns */
+
+th a {
+	display: block;
+	text-decoration: none;
+}
+
+th a:link, th a:visited {
+	color: #666666;
+}
+
+th a:hover, th a:focus {
+	color: #333333;
+}
+
+th.sortable a {
+	background-position: right;
+	background-repeat: no-repeat;
+	padding-right: 1.1em;
+}
+
+th.asc a {
+	background-image: url(../images/skin/sorted_asc.gif);
+}
+
+th.desc a {
+	background-image: url(../images/skin/sorted_desc.gif);
+}
+
+/* Loading Spinner */
+
+.spinner {
+	background: url(../images/spinner.gif) no-repeat transparent;
+	height: 128px;
+	width: 128px;
+    position: absolute;
+	top: 30%;
+	left: 50%;
+	text-indent: -9999px;
+}
