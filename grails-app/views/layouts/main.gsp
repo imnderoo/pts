@@ -19,17 +19,23 @@
 </head>
 <body>
 	<g:render template="/layouts/nav" />
-	<div class="row">
-		<g:layoutBody />
-	</div>
-	<div class="row">
-		<%--		<div class="footer" role="contentinfo">BLOOP!!!</div>--%>
 
-		<g:render template="/layouts/footer" />
+	<div class="container">
+
+		<div class="row">
+			<g:layoutBody />
+		</div>
+		<div class="row">
+			<%--		<div class="footer" role="contentinfo">BLOOP!!!</div>--%>
+
+			<g:render template="/layouts/footer" />
+		</div>
+		<div class="row">
+			<div id="spinner" class="spinner" style="display: none;">
+				<g:message code="spinner.alt" default="Loading&hellip;" />
+			</div>
+		</div>
+		<r:layoutResources />
 	</div>
-	<div id="spinner" class="spinner" style="display: none;">
-		<g:message code="spinner.alt" default="Loading&hellip;" />
-	</div>
-	<r:layoutResources />
 </body>
 </html>
