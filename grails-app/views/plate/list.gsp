@@ -69,7 +69,11 @@
 			</tbody>
 		</table>
 		<div class="pagination">
-			<g:paginate total="${plateInstanceTotal}" />
+			<ul>
+				<li>
+					<g:paginate total="${plateInstanceTotal}" />
+				</li>
+			</ul>
 		</div>
 	</div>
 </body>
