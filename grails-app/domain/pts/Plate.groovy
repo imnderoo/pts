@@ -11,11 +11,10 @@ class Plate {
 	Date createdDate
 	
 	PlateType plateType // Many to one
-	//Project project 	// Many to one
 	
 	// Use belongs to if you want ON DELETE CASCADE
 	// static belongsTo = [parentPlate: Plate] 
-	static hasMany = [childrenPlate: Plate, samplesInPlate: SamplesInPlate]
+	static hasMany = [childrenPlate: Plate, samples: Sample]
 	static belongsTo = [project: Project]
 	
     static constraints = {
