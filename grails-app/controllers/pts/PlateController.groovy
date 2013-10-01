@@ -17,17 +17,15 @@ class PlateController {
 		[plateInstanceList: Plate.list(params), plateInstanceTotal: Plate.count()]
 	}
 
-	def create() {
+	def create96() {
 		println("CREATE")
 		println(params)
 		[plateInstance: new Plate(params)]
 	}
 
-	def save() {
+	def save96() {
 		println("SAVE")
 		println(params)
-
-		//def plateInstance = new Plate(params)
 
 		// Fetch Plate Manifest And Create Excel Object
 
@@ -44,49 +42,40 @@ class PlateController {
 
 		def plateTypeInstance = PlateType.findByName('Plate96')
 
-		// Read Investigator Info
+		// Read Investigator Info from manifest
 		row = sheet.getRow(0)
 		cell = row.getCell(1)
 		def investigatorName = cell.getStringCellValue()
 		def firstName = investigatorName.split(' ')[0..-2].join(' ')
 		def lastName = investigatorName.split(' ')[-1]
 		// Check if investigator exists...
-		def investigatorInstance = Investigator.findByFirstNameAndLastName(firstName, lastName)
-		// If not, create new investigator
-		if (investigatorInstance == null)
-		{
-			investigatorMap['firstName'] = firstName
-			investigatorMap['lastName'] = lastName
-			investigatorInstance = new Investigator(investigatorMap)
-			if(!investigatorInstance.save(flush:true))
-			{
-				investigatorInstance.errors.each {
-					println it
-				}
-			}
-		}
+		// Find or save by will save the instance if it is null
+		def investigatorInstance = Investigator.findOrSaveByFirstNameAndLastName(firstName, lastName)
 
-		// Read Project Info
+		// Read Project Info from manifest
 		row = sheet.getRow(2)
 		cell = row.getCell(1, Row.CREATE_NULL_AS_BLANK)
 		def projectName = cell.getStringCellValue()
 		// Check if project exists...
-		def projectInstance = Project.findByInvestigatorAndName(investigatorInstance, projectName)
-		// If not, create new Project
-		if (projectInstance == null)
+		// Find or save by will save the instance if it is null
+		def projectInstance = Project.findOrSaveByInvestigatorAndName(investigatorInstance, projectName)
+
+
+		// Read PlatePrefix from form and find the next highest PlateID
+		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
+
+		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
+		def plateHighestId = 0
+
+		if	(!plateSearchResult.isEmpty())
 		{
-			projectMap['name'] = projectName
-			projectMap['investigator'] = investigatorInstance
-			projectInstance = new Project(projectMap)
-			if (!projectInstance.save(flush:true))
-			{
-				projectInstance.errors.each {
-					println it
-				}
-			}
+			plateSearchResult = plateSearchResult.first().getIntPlateId()
+			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
 		}
 
-		// Read Plate Info
+		def intPlateId = intPlatePrefix + String.format("%04d", plateHighestId + 1)
+
+		// Read Plate Info from manifest
 
 		// ExtPlateId
 		row = sheet.getRow(6)
@@ -104,25 +93,173 @@ class PlateController {
 			createdDate = Date.parse("dd-MM-yyyy", createdDateString)
 		}
 
+		def plateInstance = Plate.findOrCreateByIntPlateId(intPlateId.toUpperCase())
 
-		def plateInstance = Plate.findByIntPlateId(params.intPlateId.toUpperCase())
+		plateInstance.setExtPlateId(extPlateId)
+		plateInstance.setPlateType(PlateType.findByName("Plate96"))
+		plateInstance.setCreatedDate(createdDate)
+		plateInstance.setProject(projectInstance)
+		plateInstance.setCreatedBy(investigatorInstance.getFirstName())
+		plateInstance.setEnzymeUsed(params.enzymeUsed)
+		plateInstance.setPcrCondition(params.pcrCondition)
+		plateInstance.setReactionSize(params.reactionSize)
+		plateInstance.setChipId(params.chipId)
 
-		if (plateInstance == null)
+		if (!plateInstance.save(flush:true))
 		{
-			plateMap['intPlateId'] = params.intPlateId.toUpperCase()
-			plateMap['extPlateId'] = extPlateId
-			plateMap['plateType'] = PlateType.findByName("Plate96")
-			plateMap['createdDate'] = createdDate
-			plateMap['project'] = projectInstance
-			//TODO: Replace createdBy with logged in user name
-			plateMap['createdBy'] = investigatorInstance.getFirstName()
-			plateInstance = new Plate(plateMap)
+			plateInstance.errors.each {
+				println it
+			}
+		}
 
-			if (!plateInstance.save(flush:true))
+
+		def sampleList = []
+
+		for (rowNo in 7..101)
+		{
+			def samplesInPlateMap = [:]
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(1)
+			samplesInPlateMap['well'] = cell.getStringCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(2, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['sampleId'] = cell.getStringCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(3, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['sampleVol'] = cell.getNumericCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(4, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['dnaAmount'] = cell.getNumericCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(5, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['dnaSource'] = cell.getStringCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(6, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['dnaType'] = cell.getStringCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(7, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['dnaExtract'] = cell.getStringCellValue()
+
+			row = sheet.getRow(rowNo)
+			cell = row.getCell(8, Row.CREATE_NULL_AS_BLANK)
+			samplesInPlateMap['comment'] = cell.getStringCellValue()
+			samplesInPlateMap['plate'] = plateInstance
+
+			def sampleInstance = new Sample(samplesInPlateMap)
+
+			// Queue samples
+			sampleList.add(sampleInstance)
+		}
+
+		for (samples in sampleList)
+		{
+			if (!samples.save())
 			{
-				plateInstance.errors.each {
+				samples.errors.each {
 					println it
 				}
+			}
+		}
+
+		plateInstance.refresh()
+
+		render(view: "show", model: [plateInstance: plateInstance])
+		return
+
+		//
+		//
+		//        flash.message = message(code: 'default.created.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
+		//        redirect(action: "show", id: plateInstance.id)
+	}
+
+	def create384() {
+		[plateInstance: new Plate(params)]
+	}
+
+	def save384() {
+		
+		// Fetch Plate Manifest And Create Excel Object
+
+		def file = request.getFile("file")
+
+		def wb = WorkbookFactory.create(file.getInputStream())
+		def sheet = wb.getSheetAt(0)
+		def row
+		def cell
+
+		def plateMap = [:]
+		def projectMap = [:]
+		def investigatorMap = [:]
+
+		def plateTypeInstance = PlateType.findByName('Plate96')
+
+		// Read Investigator Info from manifest
+		row = sheet.getRow(0)
+		cell = row.getCell(1)
+		def investigatorName = cell.getStringCellValue()
+		def firstName = investigatorName.split(' ')[0..-2].join(' ')
+		def lastName = investigatorName.split(' ')[-1]
+		// Check if investigator exists...
+		// Find or save by will save the instance if it is null
+		def investigatorInstance = Investigator.findOrSaveByFirstNameAndLastName(firstName, lastName)
+
+		// Read Project Info from manifest
+		row = sheet.getRow(2)
+		cell = row.getCell(1, Row.CREATE_NULL_AS_BLANK)
+		def projectName = cell.getStringCellValue()
+		// Check if project exists...
+		// Find or save by will save the instance if it is null
+		def projectInstance = Project.findOrSaveByInvestigatorAndName(investigatorInstance, projectName)
+
+
+		// Read PlatePrefix from form and find the next highest PlateID
+		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
+
+		def highestPlateNum = getHighestPlateNumber(intPlatePrefix)
+
+		def intPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
+
+		// Read Plate Info from manifest
+
+		// ExtPlateId
+		row = sheet.getRow(6)
+		cell = row.getCell(0, Row.CREATE_NULL_AS_BLANK)
+		def extPlateId = cell.getStringCellValue()
+
+		// CreatedDate
+		row = sheet.getRow(3)
+		cell = row.getCell(1, Row.CREATE_NULL_AS_BLANK)
+		def createdDateString = cell.getStringCellValue()
+		def createdDate = new Date()
+		// If field is not empty, update date.
+		if (!createdDateString.isEmpty())
+		{
+			createdDate = Date.parse("dd-MM-yyyy", createdDateString)
+		}
+
+		def plateInstance = Plate.findOrCreateByIntPlateId(intPlateId.toUpperCase())
+
+		plateInstance.setExtPlateId(extPlateId)
+		plateInstance.setPlateType(PlateType.findByName("Plate96"))
+		plateInstance.setCreatedDate(createdDate)
+		plateInstance.setProject(projectInstance)
+		plateInstance.setCreatedBy(investigatorInstance.getFirstName())
+		plateInstance.setEnzymeUsed(params.enzymeUsed)
+		plateInstance.setPcrCondition(params.pcrCondition)
+		plateInstance.setReactionSize(params.reactionSize)
+		plateInstance.setChipId(params.chipId)
+
+		if (!plateInstance.save(flush:true))
+		{
+			plateInstance.errors.each {
+				println it
 			}
 		}
 
@@ -166,7 +303,7 @@ class PlateController {
 
 			samplesInPlateMap['plate'] = plateInstance
 
-			def sampleInstance = new SamplesInPlate(samplesInPlateMap)
+			def sampleInstance = new Sample(samplesInPlateMap)
 
 			// Queue samples
 			sampleList.add(sampleInstance)
@@ -181,16 +318,11 @@ class PlateController {
 				}
 			}
 		}
-		
+
 		plateInstance.refresh()
 
 		render(view: "show", model: [plateInstance: plateInstance])
 		return
-
-		//
-		//
-		//        flash.message = message(code: 'default.created.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
-		//        redirect(action: "show", id: plateInstance.id)
 	}
 
 	def show(Long id) {
@@ -204,6 +336,28 @@ class PlateController {
 		[plateInstance: plateInstance]
 	}
 
+	def clone(Long id) {
+		def oldPlateInstance = Plate.get(id)
+		
+		if (!oldPlateInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plate.label', default: 'Plate'), id])
+			redirect(action: "list")
+			return
+		}
+		
+		def newPlateInstance = new Plate()
+		
+		newPlateInstance.setExtPlateId(oldPlateInstance.getExtPlateId)
+		newPlateInstance.setPlateType(oldPlateInstance.getPlateType())
+		//newPlateInstance.setCreatedDate(createdDate)
+		newPlateInstance.setProject(oldPlateInstance.getProject())
+		newPlateInstance.setCreatedBy()
+		newPlateInstance.setEnzymeUsed(params.enzymeUsed)
+		newPlateInstance.setPcrCondition(params.pcrCondition)
+		newPlateInstance.setReactionSize(params.reactionSize)
+		newPlateInstance.setChipId(params.chipId)
+		
+	}
 	def edit(Long id) {
 		def plateInstance = Plate.get(id)
 		if (!plateInstance) {
@@ -261,5 +415,18 @@ class PlateController {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), id])
 			redirect(action: "show", id: id)
 		}
+	}
+	
+	def getHighestPlateNumber(String intPlatePrefix){
+		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
+		def plateHighestId = 0
+
+		if	(!plateSearchResult.isEmpty())
+		{
+			plateSearchResult = plateSearchResult.first().getIntPlateId()
+			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
+		}
+		
+		return plateHighestId
 	}
 }

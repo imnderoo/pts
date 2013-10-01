@@ -19,14 +19,14 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form class="form-horizontal" action="save" enctype="multipart/form-data">
+			<g:form class="form-load form-horizontal" action="save96" enctype="multipart/form-data">
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<div class="control-group">
 						<div class="controls">
-							<g:submitButton name="create" class="btn" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+							<g:submitButton name="create96" class="btn" value="${message(code: 'default.button.create.label', default: 'Create')}" />							
 						</div>
 					</div>
 				</fieldset>
