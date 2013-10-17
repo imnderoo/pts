@@ -1,6 +1,4 @@
-
-
-<%@ page import="pts.Plate" %>
+<%@ page import="pts.Plate"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +9,7 @@
 </head>
 <body>
 	<div id="show-plate"
-		class="content span8 scaffold-show" role="main">
+		class="content span12 scaffold-show" role="main">
 		<h1>
 			<g:message code="default.show.label" args="[entityName]" />
 		</h1>
@@ -20,146 +18,83 @@
 		</g:if>
 
 		<g:form class="form-horizontal">
-
-			
-				<g:if test="${plateInstance?.project}">
 				
+				<div class="row-fluid">
+				<div class="span6">
 				<div class="control-group">
-
 					<label id="project-label" class="control-label"><g:message code="plate.project.label" default="Project" /></label>
-					
 					<div class="controls">
-					
 						<span class="uneditable-input" aria-labelledby="project-label"><g:link controller="project" action="show" id="${plateInstance?.project?.id}">${plateInstance?.project?.encodeAsHTML()}</g:link></span>
-					
 					</div>
-					
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.intPlateId}">
-				
+	
 				<div class="control-group">
-
 					<label id="intPlateId-label" class="control-label"><g:message code="plate.intPlateId.label" default="Int Plate Id" /></label>
-					
-					<div class="controls">
-					
-						<span class="uneditable-input" aria-labelledby="intPlateId-label"><g:fieldValue bean="${plateInstance}" field="intPlateId"/></span>
-					
-					</div>
-					
+					<div class="controls">	
+						<span class="uneditable-input" aria-labelledby="intPlateId-label"><g:fieldValue bean="${plateInstance}" field="intPlateId"/></span>					
+					</div>				
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.extPlateId}">
 				
 				<div class="control-group">
-
-					<label id="extPlateId-label" class="control-label"><g:message code="plate.extPlateId.label" default="Ext Plate Id" /></label>
-					
-					<div class="controls">
-					
-						<span class="uneditable-input" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}" field="extPlateId"/></span>
-					
-					</div>
-					
+					<label id="extPlateId-label" class="control-label"><g:message code="plate.extPlateId.label" default="Ext Plate Id" /></label>		
+					<div class="controls">			
+						<span class="uneditable-input" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}" field="extPlateId"/></span>		
+					</div>				
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.plateType}">
 				
 				<div class="control-group">
-
-					<label id="plateType-label" class="control-label"><g:message code="plate.plateType.label" default="Plate Type" /></label>
-					
-					<div class="controls">
-					
+					<label id="plateType-label" class="control-label"><g:message code="plate.plateType.label" default="Plate Type" /></label>				
+					<div class="controls">				
 						<span class="uneditable-input" aria-labelledby="plateType-label"><g:link controller="plateType" action="show" id="${plateInstance?.plateType?.id}">${plateInstance?.plateType?.encodeAsHTML()}</g:link></span>
-					
 					</div>
-					
 				</div>
-				</g:if>
 			
-				<g:if test="${plateInstance?.createdBy}">
-				
 				<div class="control-group">
-
 					<label id="createdBy-label" class="control-label"><g:message code="plate.createdBy.label" default="Created By" /></label>
-					
 					<div class="controls">
-					
 						<span class="uneditable-input" aria-labelledby="createdBy-label"><g:fieldValue bean="${plateInstance}" field="createdBy"/></span>
-					
 					</div>
-					
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.createdDate}">
 				
 				<div class="control-group">
-
 					<label id="createdDate-label" class="control-label"><g:message code="plate.createdDate.label" default="Created Date" /></label>
-					
 					<div class="controls">
-					
 						<span class="uneditable-input" aria-labelledby="createdDate-label"><g:fieldValue bean="${plateInstance}" field="createdDate"/></span>
-					
 					</div>
-					
 				</div>
+				
+				
+				</div>
+				<div class="span6">
+				<g:if test="${plateInstance?.chipId}">
+					<div class="control-group">
+	
+						<label id="childrenPlate-label" class="control-label"><g:message code="plate.childrenPlate.label" default="Children Plate" /></label>		
+						<div class="controls">
+						
+							<g:each in="${plateInstance.childrenPlate}" var="c">
+							<span class="uneditable-input" aria-labelledby="childrenPlate-label"><g:link controller="plate" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
+							</g:each>
+						
+						</div>
+						
+				</div>			
 				</g:if>
-			
-				<g:if test="${plateInstance?.childrenPlate}">
 				
 				<div class="control-group">
-
-					<label id="childrenPlate-label" class="control-label"><g:message code="plate.childrenPlate.label" default="Children Plate" /></label>
-					
-					<div class="controls">
-					
-						<g:each in="${plateInstance.childrenPlate}" var="c">
-						<span class="uneditable-input" aria-labelledby="childrenPlate-label"><g:link controller="plate" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-					</div>
-					
-				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.enzymeUsed}">
-				
-				<div class="control-group">
-
 					<label id="enzymeUsed-label" class="control-label"><g:message code="plate.enzymeUsed.label" default="Enzyme Used" /></label>
 					
 					<div class="controls">
-					
 						<span class="uneditable-input" aria-labelledby="enzymeUsed-label"><g:fieldValue bean="${plateInstance}" field="enzymeUsed"/></span>
-					
 					</div>
-					
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.pcrCondition}">
-				
-				<div class="control-group">
 
+				<div class="control-group">
 					<label id="pcrCondition-label" class="control-label"><g:message code="plate.pcrCondition.label" default="Pcr Condition" /></label>
-					
-					<div class="controls">
-					
+					<div class="controls">	
 						<span class="uneditable-input" aria-labelledby="pcrCondition-label"><g:fieldValue bean="${plateInstance}" field="pcrCondition"/></span>
-					
 					</div>
-					
 				</div>
-				</g:if>
-			
-				<g:if test="${plateInstance?.reactionSize}">
 				
 				<div class="control-group">
 
@@ -172,9 +107,8 @@
 					</div>
 					
 				</div>
-				</g:if>
 			
-				<g:if test="${plateInstance?.chipId}">
+
 				
 				<div class="control-group">
 
@@ -187,29 +121,14 @@
 					</div>
 					
 				</div>
-				</g:if>
+			</div>
+			</div>
 			
-				<g:if test="${plateInstance?.samples}">
 				
-				<div class="control-group">
-
-					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samples.label" default="Sample In Plate" /></label>
-					
-					<div class="controls">
-					
-						<g:each in="${plateInstance.samples}" var="s">
-						<span class="uneditable-input" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-					</div>
-					
-				</div>
-				</g:if>
-			
-
-
-	
-			<fieldset class="buttons">
+			<div class="row-fluid">
+			<div class="span12">
+							<fieldset class="buttons">
+							
 				<div class="control-groups">
 					<div class="controls">
 						<g:hiddenField name="id" value="${plateInstance?.id}" />
@@ -222,6 +141,27 @@
 					</div>
 				</div>
 			</fieldset>
+			</div>
+			</div>
+
+			<div class="row-fluid">
+			<div class="span12">
+		
+				<g:if test="${plateInstance?.samples}">
+
+					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samples.label" default="Sample In Plate" /></label>
+					
+						<g:each in="${plateInstance.samples}" var="s">
+						<span class="uneditable-input input-small" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</div>
+				</g:if>
+			</div>
+			</div>
+
+
+
 		</g:form>
 	</div>
 </body>
