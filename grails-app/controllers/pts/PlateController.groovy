@@ -173,8 +173,6 @@ class PlateController {
 		render(view: "show", model: [plateInstance: plateInstance])
 		return
 
-		//
-		//
 		//        flash.message = message(code: 'default.created.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
 		//        redirect(action: "show", id: plateInstance.id)
 	}
@@ -250,6 +248,7 @@ class PlateController {
 		plateInstance.setPlateType(PlateType.findByName("Plate96"))
 		plateInstance.setCreatedDate(createdDate)
 		plateInstance.setProject(projectInstance)
+		//TODO: update created by to current logged in user
 		plateInstance.setCreatedBy(investigatorInstance.getFirstName())
 		plateInstance.setEnzymeUsed(params.enzymeUsed)
 		plateInstance.setPcrCondition(params.pcrCondition)
@@ -347,17 +346,36 @@ class PlateController {
 		
 		def newPlateInstance = new Plate()
 		
+		// Copy old plate info to new plate. Namely the project and samples relationships
 		newPlateInstance.setExtPlateId(oldPlateInstance.getExtPlateId)
 		newPlateInstance.setPlateType(oldPlateInstance.getPlateType())
-		//newPlateInstance.setCreatedDate(createdDate)
 		newPlateInstance.setProject(oldPlateInstance.getProject())
-		newPlateInstance.setCreatedBy()
+		
+		//TODO: Wait... wouldn't cloning the plate change the sample concentration and volume??
+		//TODO: Need to ask Ajay to confirm before preceding with this.
+		//TODO: Might be easier to just submit a different excel sheet.
+
+				//TODO: Update createdBy to current logged in user.
+		newPlateInstance.setCreatedBy(oldPlateInstance.getCreatedBy())
+		
+		
+		newPlateInstance.setCreatedDate(params.createdDate)
 		newPlateInstance.setEnzymeUsed(params.enzymeUsed)
 		newPlateInstance.setPcrCondition(params.pcrCondition)
 		newPlateInstance.setReactionSize(params.reactionSize)
 		newPlateInstance.setChipId(params.chipId)
 		
+		def oldPlateSampleList = Sample.findAll {
+			plate == oldPlateInstance
+		}
+		
+		for (samples in oldPlateSampleList)
+		{
+			println samples.getSampleId()
+		}
+		
 	}
+	
 	def edit(Long id) {
 		def plateInstance = Plate.get(id)
 		if (!plateInstance) {
