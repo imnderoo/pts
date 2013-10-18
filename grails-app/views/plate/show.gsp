@@ -15,6 +15,15 @@
 		<g:if test="${flash.message}">
 			<div class="alert alert-info" role="status">${flash.message}</div>
 		</g:if>
+		<g:hasErrors bean="${plateInstance}">
+			<ul class="errors" role="alert">
+				<g:eachError bean="${plateInstance}" var="error">
+					<li
+						<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
+							error="${error}" /></li>
+				</g:eachError>
+			</ul>
+		</g:hasErrors>
 
 		<g:form class="form-horizontal">
 				
@@ -67,16 +76,18 @@
 				<div class="control-groups">
 					<div class="controls">
 						<g:hiddenField name="id" value="${plateInstance?.id}" />
+						
 						<g:link class="btn" action="edit" id="${plateInstance?.id}">
 							<g:message code="default.button.edit.label" default="Edit" />
 						</g:link>
-						<g:actionSubmit class="btn" action="delete"
-							value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-							onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 						
 						<g:link class="btn" action="clone" id="${plateInstance?.id}">
 							<g:message code="default.button.clone.label" default="Clone" />
 						</g:link>
+						
+						<g:actionSubmit class="btn btn-danger" action="delete"
+							value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+							onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 					</div>
 				</div>
 			</fieldset>
@@ -124,15 +135,18 @@
 			
 			</g:form>
 				
-			<div class="row-fluid">
+			<div class="row">
 			<div class="span12">
 		
 				<g:if test="${plateInstance?.samples}">
 
 					<h3><g:message code="plate.samples.label" default="Samples In Plate" /></h3>
-					
-						<g:each in="${plateInstance.samples}" var="s">
-						<span class="uneditable-input input-small" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+											
+						<g:each in="${plateInstance.samples}" var="s" status="count">
+						<span class="uneditable-input input-smaller" aria-labelledby="samplesInPlate-label"><g:link class="small-text" controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+							<g:if test="${(count + 1) % 12 == 0}">
+								<br>
+							</g:if>
 						</g:each>
 					
 				</g:if>
