@@ -3,8 +3,7 @@
 <html>
 <head>
 <meta name="layout" content="main">
-<g:set var="entityName"
-	value="${message(code: 'plate.label', default: 'Plate')}" />
+<g:set var="entityName" value="${message(code: 'plate.label', default: 'Plate')}" />
 <title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 <body>
@@ -20,7 +19,7 @@
 		<g:form class="form-horizontal">
 				
 				<div class="row-fluid">
-				<div class="span6">
+				<div class="span5">
 				<div class="control-group">
 					<label id="project-label" class="control-label"><g:message code="plate.project.label" default="Project" /></label>
 					<div class="controls">
@@ -63,23 +62,26 @@
 					</div>
 				</div>
 				
-				
+					<fieldset class="buttons">
+							
+				<div class="control-groups">
+					<div class="controls">
+						<g:hiddenField name="id" value="${plateInstance?.id}" />
+						<g:link class="btn" action="edit" id="${plateInstance?.id}">
+							<g:message code="default.button.edit.label" default="Edit" />
+						</g:link>
+						<g:actionSubmit class="btn" action="delete"
+							value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+							onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+						
+						<g:link class="btn" action="clone" id="${plateInstance?.id}">
+							<g:message code="default.button.clone.label" default="Clone" />
+						</g:link>
+					</div>
 				</div>
-				<div class="span6">
-				<g:if test="${plateInstance?.chipId}">
-					<div class="control-group">
-	
-						<label id="childrenPlate-label" class="control-label"><g:message code="plate.childrenPlate.label" default="Children Plate" /></label>		
-						<div class="controls">
-						
-							<g:each in="${plateInstance.childrenPlate}" var="c">
-							<span class="uneditable-input" aria-labelledby="childrenPlate-label"><g:link controller="plate" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-							</g:each>
-						
-						</div>
-						
-				</div>			
-				</g:if>
+			</fieldset>
+				</div>
+				<div class="span5">
 				
 				<div class="control-group">
 					<label id="enzymeUsed-label" class="control-label"><g:message code="plate.enzymeUsed.label" default="Enzyme Used" /></label>
@@ -111,58 +113,44 @@
 
 				
 				<div class="control-group">
-
 					<label id="chipId-label" class="control-label"><g:message code="plate.chipId.label" default="Chip Id" /></label>
-					
 					<div class="controls">
-					
 						<span class="uneditable-input" aria-labelledby="chipId-label"><g:fieldValue bean="${plateInstance}" field="chipId"/></span>
-					
 					</div>
-					
 				</div>
+				
 			</div>
 			</div>
 			
+			</g:form>
 				
-			<div class="row-fluid">
-			<div class="span12">
-							<fieldset class="buttons">
-							
-				<div class="control-groups">
-					<div class="controls">
-						<g:hiddenField name="id" value="${plateInstance?.id}" />
-						<g:link class="btn" action="edit" id="${plateInstance?.id}">
-							<g:message code="default.button.edit.label" default="Edit" />
-						</g:link>
-						<g:actionSubmit class="btn" action="delete"
-							value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-							onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					</div>
-				</div>
-			</fieldset>
-			</div>
-			</div>
-
 			<div class="row-fluid">
 			<div class="span12">
 		
 				<g:if test="${plateInstance?.samples}">
 
-					<label id="samplesInPlate-label" class="control-label"><g:message code="plate.samples.label" default="Sample In Plate" /></label>
+					<h3><g:message code="plate.samples.label" default="Samples In Plate" /></h3>
 					
 						<g:each in="${plateInstance.samples}" var="s">
 						<span class="uneditable-input input-small" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
-				</div>
 				</g:if>
 			</div>
 			</div>
 
+			<g:if test="${plateInstance?.childrenPlate}">
+			
+				<h3><g:message code="plate.childrenPlate.label" default="Children Plate" /></h3>
+			
+						
+							<g:each in="${plateInstance.childrenPlate}" var="c">
+							<span class="uneditable-input" aria-labelledby="childrenPlate-label"><g:link controller="plate" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
+							</g:each>
+						
+				</g:if>
 
 
-		</g:form>
 	</div>
 </body>
 </html>
