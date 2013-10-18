@@ -17,9 +17,10 @@ class Plate {
 
 	// Use belongs to if you want ON DELETE CASCADE
 	// static belongsTo = [parentPlate: Plate]
+	static notCloneable = ['childrenPlate']
 	static hasMany = [childrenPlate: Plate, samples: Sample]
 	static belongsTo = [project: Project]
-
+	
 	static constraints = {
 		project nullalbe: false
 
@@ -40,6 +41,8 @@ class Plate {
 		chipId nullable: true
 	}
 
+	static mapping = { samples sort: 'well' }
+	
 	public String toString()
 	{
 		return intPlateId
