@@ -4,11 +4,11 @@
 	<div class="control-group">
 
 		<label class="control-label" for="intPlateId">
-			<g:message code="plate.intPlateId.label" default="Int Plate Id" />
+			<g:message code="plate.intPlateId.label" default="Int Plate Prefix" />
 			<span class="required-indicator">*</span>
 		</label>
 		<div class="controls">
-			<g:textField name="intPlatePrefix" maxlength="8" required="" value="${plateInstance?.intPlateId}" />
+			<g:textField name="intPlatePrefix" maxlength="8" required="" />
 		</div>
 	</div>
 </div>
