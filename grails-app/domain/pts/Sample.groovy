@@ -30,6 +30,8 @@ class Sample {
 		sampleId (unique: 'plate')
 	}
 
+	static mapping = { sort well: "asc" }
+
 	public String toString() {
 		return sampleId
 	}
