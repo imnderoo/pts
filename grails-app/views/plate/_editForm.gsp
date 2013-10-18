@@ -80,7 +80,7 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField name="createdDate" maxlength="8" required="" value="${formatDate(date:plateInstance?.createdDate, format:"yyyy-MM-dd")}" />
+					<g:textField name="createdDate" maxlength="10" required="" value="${formatDate(date:plateInstance?.createdDate, format:"yyyy-MM-dd")}" />
 				</div>
 			</div>
 		</div>
