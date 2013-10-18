@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.dao.DataIntegrityViolationException
 
+
 class PlateController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -18,15 +19,10 @@ class PlateController {
 	}
 
 	def create96() {
-		println("CREATE")
-		println(params)
 		[plateInstance: new Plate(params)]
 	}
 
 	def save96() {
-		println("SAVE")
-		println(params)
-
 		// Fetch Plate Manifest And Create Excel Object
 
 		def file = request.getFile("file")
@@ -59,7 +55,6 @@ class PlateController {
 		// Check if project exists...
 		// Find or save by will save the instance if it is null
 		def projectInstance = Project.findOrSaveByInvestigatorAndName(investigatorInstance, projectName)
-
 
 		// Read PlatePrefix from form and find the next highest PlateID
 		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
@@ -182,7 +177,7 @@ class PlateController {
 	}
 
 	def save384() {
-		
+
 		// Fetch Plate Manifest And Create Excel Object
 
 		def file = request.getFile("file")
@@ -336,46 +331,91 @@ class PlateController {
 	}
 
 	def clone(Long id) {
+
 		def oldPlateInstance = Plate.get(id)
+		def newPlateInstance = Plate.deepClone(oldPlateInstance)
 		
-		if (!oldPlateInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plate.label', default: 'Plate'), id])
-			redirect(action: "list")
-			return
+		// Read PlatePrefix from form and find the next highest PlateID
+		def intPlateIdRegex = oldPlateInstance.getIntPlateId() =~ /\D+/
+		def intPlatePrefix = intPlateIdRegex[0].toString().toUpperCase()
+		
+		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
+		def plateHighestId = 0
+
+		if	(!plateSearchResult.isEmpty())
+		{
+			plateSearchResult = plateSearchResult.first().getIntPlateId()
+			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
+		}
+
+		def intPlateId = intPlatePrefix + String.format("%04d", plateHighestId + 1)
+		newPlateInstance.setIntPlateId(intPlateId)
+		
+		[plateInstance: newPlateInstance]
+	}
+
+	def saveClone()
+	{
+		println (params)
+		
+//		def oldPlateInstance = Plate.get(id)
+
+//		if (!oldPlateInstance) {
+//			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plate.label', default: 'Plate'), id])
+//			redirect(action: "list")
+//			return
+//		}
+
+//		params.createdDate = Date.parse("dd-MM-yyyy", params.createdDate)
+		
+		def plateInstance = new Plate(params)
+		
+		if (!plateInstance.save())
+		{
+			plateInstance.errors.each {
+				println it
+			}
 		}
 		
-		def newPlateInstance = new Plate()
-		
-		// Copy old plate info to new plate. Namely the project and samples relationships
-		newPlateInstance.setExtPlateId(oldPlateInstance.getExtPlateId)
-		newPlateInstance.setPlateType(oldPlateInstance.getPlateType())
-		newPlateInstance.setProject(oldPlateInstance.getProject())
-		
+//		// Copy old plate info to new plate. Namely the project and samples relationships
+//		newPlateInstance.setExtPlateId(oldPlateInstance.getExtPlateId())
+//		newPlateInstance.setPlateType(oldPlateInstance.getPlateType())
+//		newPlateInstance.setProject(oldPlateInstance.getProject())
+
 		//TODO: Wait... wouldn't cloning the plate change the sample concentration and volume??
 		//TODO: Need to ask Ajay to confirm before preceding with this.
 		//TODO: Might be easier to just submit a different excel sheet.
 
-				//TODO: Update createdBy to current logged in user.
-		newPlateInstance.setCreatedBy(oldPlateInstance.getCreatedBy())
+		//TODO: Update createdBy to current logged in user.
 		
-		
-		newPlateInstance.setCreatedDate(params.createdDate)
-		newPlateInstance.setEnzymeUsed(params.enzymeUsed)
-		newPlateInstance.setPcrCondition(params.pcrCondition)
-		newPlateInstance.setReactionSize(params.reactionSize)
-		newPlateInstance.setChipId(params.chipId)
-		
-		def oldPlateSampleList = Sample.findAll {
-			plate == oldPlateInstance
-		}
-		
-		for (samples in oldPlateSampleList)
-		{
-			println samples.getSampleId()
-		}
-		
+//		newPlateInstance.setCreatedBy(oldPlateInstance.getCreatedBy())
+//
+//
+//		newPlateInstance.setCreatedDate(params.createdDate)
+//		newPlateInstance.setEnzymeUsed(params.enzymeUsed)
+//		newPlateInstance.setPcrCondition(params.pcrCondition)
+//		newPlateInstance.setReactionSize(params.reactionSize)
+//		newPlateInstance.setChipId(params.chipId)
+//
+//		def oldPlateSampleList = Sample.findAll {
+//			plate == oldPlateInstance
+//		}
+//
+//		for (samples in oldPlateSampleList)
+//		{
+//			def newSample = samples.clone()
+//			newSample.setPlate(oldPlateInstance)
+//
+//			if (!newSample.save())
+//			{
+//				samples.errors.each {
+//					println it
+//				}
+//			}
+//		}		
+		render(view: "show", model: [plateInstance: plateInstance])
+		return
 	}
-	
 	def edit(Long id) {
 		def plateInstance = Plate.get(id)
 		if (!plateInstance) {
@@ -398,8 +438,8 @@ class PlateController {
 		if (version != null) {
 			if (plateInstance.version > version) {
 				plateInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-						[message(code: 'plate.label', default: 'Plate')] as Object[],
-						"Another user has updated this Plate while you were editing")
+				[message(code: 'plate.label', default: 'Plate')] as Object[],
+				"Another user has updated this Plate while you were editing")
 				render(view: "edit", model: [plateInstance: plateInstance])
 				return
 			}
@@ -434,7 +474,7 @@ class PlateController {
 			redirect(action: "show", id: id)
 		}
 	}
-	
+
 	def getHighestPlateNumber(String intPlatePrefix){
 		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
 		def plateHighestId = 0
@@ -444,7 +484,7 @@ class PlateController {
 			plateSearchResult = plateSearchResult.first().getIntPlateId()
 			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
 		}
-		
+
 		return plateHighestId
 	}
 }
