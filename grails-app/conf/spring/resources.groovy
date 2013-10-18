@@ -1,3 +1,4 @@
+import pts.CustomDateEditorRegistrar
+
 // Place your Spring DSL code here
-beans = {
-}
+beans = { customPropertyEditorRegistrar(CustomDateEditorRegistrar) }
