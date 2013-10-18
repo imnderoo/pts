@@ -110,7 +110,7 @@ class PlateController {
 
 		def sampleList = []
 
-		for (rowNo in 7..101)
+		for (rowNo in 6..101)
 		{
 			def samplesInPlateMap = [:]
 
@@ -125,11 +125,11 @@ class PlateController {
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(3, Row.CREATE_NULL_AS_BLANK)
 			samplesInPlateMap['sampleVol'] = cell.getNumericCellValue()
-
+	
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(4, Row.CREATE_NULL_AS_BLANK)
 			samplesInPlateMap['dnaAmount'] = cell.getNumericCellValue()
-
+			
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(5, Row.CREATE_NULL_AS_BLANK)
 			samplesInPlateMap['dnaSource'] = cell.getStringCellValue()
@@ -160,12 +160,15 @@ class PlateController {
 				samples.errors.each {
 					println it
 				}
+				
+				render(view: "save96", model: [plateInstance: plateInstance])
+				
 			}
 		}
 
 		plateInstance.refresh()
 
-		render(view: "show", model: [plateInstance: plateInstance])
+		redirect(view: "show", model: [plateInstance: plateInstance])
 		return
 
 		//        flash.message = message(code: 'default.created.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
@@ -273,11 +276,11 @@ class PlateController {
 
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(3, Row.CREATE_NULL_AS_BLANK)
-			samplesInPlateMap['sampleVol'] = cell.getNumericCellValue()
+			samplesInPlateMap['sampleVol'] = cell.getStringCellValue()
 
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(4, Row.CREATE_NULL_AS_BLANK)
-			samplesInPlateMap['dnaAmount'] = cell.getNumericCellValue()
+			samplesInPlateMap['dnaAmount'] = cell.getStringCellValue()
 
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(5, Row.CREATE_NULL_AS_BLANK)
@@ -351,71 +354,20 @@ class PlateController {
 		def intPlateId = intPlatePrefix + String.format("%04d", plateHighestId + 1)
 		newPlateInstance.setIntPlateId(intPlateId)
 		
-		[plateInstance: newPlateInstance]
-	}
-
-	def saveClone()
-	{
-		println (params)
-		
-//		def oldPlateInstance = Plate.get(id)
-
-//		if (!oldPlateInstance) {
-//			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plate.label', default: 'Plate'), id])
-//			redirect(action: "list")
-//			return
-//		}
-
-//		params.createdDate = Date.parse("dd-MM-yyyy", params.createdDate)
-		
-		def plateInstance = new Plate(params)
-		
-		if (!plateInstance.save())
-		{
-			plateInstance.errors.each {
+		if (!newPlateInstance.save(flush: true)) {
+			render(view: "show", model: [plateInstance: plateInstance])
+			return
+			
+			newPlateInstance.errors.each {
 				println it
 			}
 		}
 		
-//		// Copy old plate info to new plate. Namely the project and samples relationships
-//		newPlateInstance.setExtPlateId(oldPlateInstance.getExtPlateId())
-//		newPlateInstance.setPlateType(oldPlateInstance.getPlateType())
-//		newPlateInstance.setProject(oldPlateInstance.getProject())
+		flash.message = "The cloned plate is automatically assigned the internal ID " + intPlateId
 
-		//TODO: Wait... wouldn't cloning the plate change the sample concentration and volume??
-		//TODO: Need to ask Ajay to confirm before preceding with this.
-		//TODO: Might be easier to just submit a different excel sheet.
-
-		//TODO: Update createdBy to current logged in user.
-		
-//		newPlateInstance.setCreatedBy(oldPlateInstance.getCreatedBy())
-//
-//
-//		newPlateInstance.setCreatedDate(params.createdDate)
-//		newPlateInstance.setEnzymeUsed(params.enzymeUsed)
-//		newPlateInstance.setPcrCondition(params.pcrCondition)
-//		newPlateInstance.setReactionSize(params.reactionSize)
-//		newPlateInstance.setChipId(params.chipId)
-//
-//		def oldPlateSampleList = Sample.findAll {
-//			plate == oldPlateInstance
-//		}
-//
-//		for (samples in oldPlateSampleList)
-//		{
-//			def newSample = samples.clone()
-//			newSample.setPlate(oldPlateInstance)
-//
-//			if (!newSample.save())
-//			{
-//				samples.errors.each {
-//					println it
-//				}
-//			}
-//		}		
-		render(view: "show", model: [plateInstance: plateInstance])
-		return
+		[plateInstance: newPlateInstance]
 	}
+
 	def edit(Long id) {
 		def plateInstance = Plate.get(id)
 		if (!plateInstance) {
@@ -452,7 +404,7 @@ class PlateController {
 			return
 		}
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
 		redirect(action: "show", id: plateInstance.id)
 	}
 
@@ -466,11 +418,11 @@ class PlateController {
 
 		try {
 			plateInstance.delete(flush: true)
-			flash.message = message(code: 'default.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), id])
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
 			redirect(action: "list")
 		}
 		catch (DataIntegrityViolationException e) {
-			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), id])
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
 			redirect(action: "show", id: id)
 		}
 	}
