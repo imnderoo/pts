@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="edit-plate"
-		class="content span8 scaffold-edit" role="main">
+		class="content span10 scaffold-edit" role="main">
 		<h1>
 			<g:message code="default.edit.label" args="[entityName]" />
 		</h1>
@@ -30,7 +30,7 @@
 			<g:hiddenField name="id" value="${plateInstance?.id}" />
 			<g:hiddenField name="version" value="${plateInstance?.version}" />
 			<fieldset class="form">
-				<g:render template="form" />
+				<g:render template="editForm" />
 			</fieldset>
 			<fieldset class="buttons">
 				<div class="control-group">
