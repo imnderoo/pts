@@ -1,5 +1,3 @@
-<%@ page import="pts.Plate"%>
-
 <div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">
 	<div class="control-group">
 
