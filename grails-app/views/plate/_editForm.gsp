@@ -1,5 +1,3 @@
-<%@ page import="pts.Plate"%>
-
 <div class="row-fluid">
 	<div class="span5">
 		<div class="control-group">
@@ -80,7 +78,7 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField name="createdDate" maxlength="10" required="" value="${formatDate(date:plateInstance?.createdDate, format:"yyyy-MM-dd")}" />
+					<g:textField class="datepicker" name="createdDate" maxlength="10" required="" value="${formatDate(date:plateInstance?.createdDate, format:"dd-MM-yyyy")}" placeholder="DD-MM-YYYY" />
 				</div>
 			</div>
 		</div>
