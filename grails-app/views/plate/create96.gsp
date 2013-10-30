@@ -21,7 +21,7 @@
 			</g:hasErrors>
 			<g:form class="form-load form-horizontal" action="save96" enctype="multipart/form-data">
 				<fieldset class="form">
-					<g:render template="createForm"/>
+					<g:render template="create96Form"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<div class="control-group">
