@@ -10,7 +10,7 @@ public class CustomDateEditorRegistrar implements PropertyEditorRegistrar {
 
 	public void registerCustomEditors(PropertyEditorRegistry registry) {
 
-		String dateFormat = 'yyyy-MM-dd'
+		String dateFormat = 'dd-MM-yyyy'
 		registry.registerCustomEditor(Date, new CustomDateEditor(new SimpleDateFormat(dateFormat), true))
 	}
 }
