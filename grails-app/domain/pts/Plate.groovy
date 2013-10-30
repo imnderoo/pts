@@ -12,13 +12,15 @@ class Plate {
 	String createdBy
 	String chipId
 	Date createdDate
-
+	Plate q1Plate
+	Plate q2Plate
+	Plate q3Plate
+	Plate q4Plate
+	
 	PlateType plateType // Many to one
 
-	// Use belongs to if you want ON DELETE CASCADE
-	// static belongsTo = [parentPlate: Plate]
-	static notCloneable = ['childrenPlate']
-	static hasMany = [childrenPlate: Plate, samples: Sample]
+	static hasMany = [samples: Sample]
+	static notCloneable = ['q1Plate', 'q2Plate', 'q3Plate', 'q4Plate']	
 	static belongsTo = [project: Project]
 	
 	static constraints = {
@@ -32,8 +34,11 @@ class Plate {
 		createdBy size: 1..24, nullable: false
 		createdDate nullable: false
 
-		childrenPlate nullable: true
-
+		q1Plate nullable: true
+		q2Plate nullable: true
+		q3Plate nullable: true
+		q4Plate nullable: true
+		
 		enzymeUsed inList: ['Qiagen', 'Kappa'], nullable: true
 		pcrCondition inList: ['Normal', '58C'], nullable: true
 		reactionSize inList: ['Half', 'Full'], nullable: true
