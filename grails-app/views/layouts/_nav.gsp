@@ -51,6 +51,9 @@
 						<li>
 							<g:link controller="Plate" action="create96">New Plate96</g:link>
 						</li>
+												<li>
+							<g:link controller="Plate" action="create384">New Plate384</g:link>
+						</li>
 					</ul>
 				</li>
 
