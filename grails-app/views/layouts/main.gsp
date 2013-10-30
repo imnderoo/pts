@@ -26,8 +26,6 @@
 			<g:layoutBody />
 		</div>
 		<div class="row">
-			<%--		<div class="footer" role="contentinfo">BLOOP!!!</div>--%>
-
 			<g:render template="/layouts/footer" />
 		</div>
 		<div class="row">
