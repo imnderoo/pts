@@ -29,21 +29,14 @@
 		<g:form class="form-horizontal">
 			<div class="row-fluid">
 				<div class="span5">
-					<div class="control-group">
-						<label id="project-label" class="control-label">
-							<g:message code="plate.project.label" default="Project" />
-						</label>
-						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="project-label"><g:link controller="project" action="show" id="${plateInstance?.project?.id}">${plateInstance?.project?.encodeAsHTML()}</g:link></span>
-						</div>
-					</div>
 
 					<div class="control-group">
 						<label id="intPlateId-label" class="control-label">
 							<g:message code="plate.intPlateId.label" default="Int Plate Id" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="intPlateId-label"><g:fieldValue bean="${plateInstance}" field="intPlateId" /></span>
+							<span class="uneditable-input" aria-labelledby="intPlateId-label"><g:fieldValue bean="${plateInstance}"
+									field="intPlateId" /></span>
 						</div>
 					</div>
 
@@ -52,16 +45,18 @@
 							<g:message code="plate.extPlateId.label" default="Ext Plate Id" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}" field="extPlateId" /></span>
+							<span class="uneditable-input" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}"
+									field="extPlateId" /></span>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label id="plateType-label" class="control-label">
-							<g:message code="plate.plateType.label" default="Plate Type" />
+						<label id="project-label" class="control-label">
+							<g:message code="plate.project.label" default="Project" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="plateType-label"><g:link controller="plateType" action="show" id="${plateInstance?.plateType?.id}">${plateInstance?.plateType?.encodeAsHTML()}</g:link></span>
+							<span class="uneditable-input" aria-labelledby="project-label"><g:link controller="project" action="show" id="${plateInstance?.project?.id}">${plateInstance?.project?.encodeAsHTML()}
+								</g:link></span>
 						</div>
 					</div>
 
@@ -70,7 +65,8 @@
 							<g:message code="plate.createdBy.label" default="Created By" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="createdBy-label"><g:fieldValue bean="${plateInstance}" field="createdBy" /></span>
+							<span class="uneditable-input" aria-labelledby="createdBy-label"><g:fieldValue bean="${plateInstance}"
+									field="createdBy" /></span>
 						</div>
 					</div>
 
@@ -79,7 +75,8 @@
 							<g:message code="plate.createdDate.label" default="Created Date" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="createdDate-label"><g:fieldValue bean="${plateInstance}" field="createdDate" /></span>
+							<span class="uneditable-input" aria-labelledby="createdDate-label"><g:fieldValue bean="${plateInstance}"
+									field="createdDate" /></span>
 						</div>
 					</div>
 
@@ -93,18 +90,29 @@
 									<g:message code="default.button.edit.label" default="Edit" />
 								</g:link>
 
-								<g:link class="btn" action="clone" id="${plateInstance?.id}">
-									<g:message code="default.button.clone.label" default="Clone" />
-								</g:link>
-
-								<g:actionSubmit class="btn btn-danger" action="delete" 
+								<g:if test="${plateInstance?.plateType?.name == "Plate96" }">
+									<g:link class="btn" action="clone" id="${plateInstance?.id}">
+										<g:message code="default.button.clone.label" default="Clone" />
+									</g:link>
+								</g:if>
+								
+								<g:actionSubmit class="btn btn-danger" action="delete"
 									value="${message(code: 'default.button.delete.label', default: 'Delete')}"
 									onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 							</div>
 						</div>
+						
 					</fieldset>
 				</div>
 				<div class="span5">
+					<div class="control-group">
+						<label id="plateType-label" class="control-label">
+							<g:message code="plate.plateType.label" default="Plate Type" />
+						</label>
+						<div class="controls">
+							<span class="uneditable-input" aria-labelledby="plateType-label">${plateInstance?.plateType?.encodeAsHTML()}</span>
+						</div>
+					</div>
 
 					<div class="control-group">
 						<label id="enzymeUsed-label" class="control-label">
@@ -112,7 +120,8 @@
 						</label>
 
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="enzymeUsed-label"><g:fieldValue bean="${plateInstance}" field="enzymeUsed" /></span>
+							<span class="uneditable-input" aria-labelledby="enzymeUsed-label"><g:fieldValue bean="${plateInstance}"
+									field="enzymeUsed" /></span>
 						</div>
 					</div>
 
@@ -121,7 +130,8 @@
 							<g:message code="plate.pcrCondition.label" default="Pcr Condition" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="pcrCondition-label"><g:fieldValue bean="${plateInstance}" field="pcrCondition" /></span>
+							<span class="uneditable-input" aria-labelledby="pcrCondition-label"><g:fieldValue bean="${plateInstance}"
+									field="pcrCondition" /></span>
 						</div>
 					</div>
 
@@ -131,7 +141,8 @@
 						</label>
 
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="reactionSize-label"><g:fieldValue bean="${plateInstance}" field="reactionSize" /></span>
+							<span class="uneditable-input" aria-labelledby="reactionSize-label"><g:fieldValue bean="${plateInstance}"
+									field="reactionSize" /></span>
 						</div>
 					</div>
 
@@ -140,7 +151,8 @@
 							<g:message code="plate.chipId.label" default="Chip Id" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="chipId-label"><g:fieldValue bean="${plateInstance}" field="chipId" /></span>
+							<span class="uneditable-input" aria-labelledby="chipId-label"><g:fieldValue bean="${plateInstance}"
+									field="chipId" /></span>
 						</div>
 					</div>
 
@@ -149,52 +161,67 @@
 
 		</g:form>
 
-		<div class="row">
+		<div class="row-fluid">
 			<div class="span12">
-				
+
 				<g:if test="${plateInstance?.samples}">
 					<h3>
 						<g:message code="plate.samples.label" default="Samples In Plate" />
-					
-						<span class="btn-group" data-toggle="buttons-radio">
-							<g:remoteLink class="btn" action="renderShowSample" id="${plateInstance.id}" update="samplesView" params="[samplesGridView:'true']">Grid View</g:remoteLink>
-							<g:remoteLink class="btn" action="renderShowSample" id="${plateInstance.id}" update="samplesView" params="[samplesListView:'true']">List View</g:remoteLink>
+
+						<span class="btn-group" data-toggle="buttons-radio"> <g:remoteLink class="btn active" action="renderSamplesView"
+								id="${plateInstance.id}" update="showSamplesView" params="[samplesGridView:'true']"><i class="icon-th"></i> Grid</g:remoteLink> <g:remoteLink
+								class="btn" action="renderSamplesView" id="${plateInstance.id}" update="showSamplesView" params="[samplesListView:'true']"><i class="icon-list"></i> List</g:remoteLink>
 						</span>
 					</h3>
 				</g:if>
-				<div id="samplesView">			
-					<g:render template="showSample" />
+				<div id="showSamplesView">
+					<g:render template="showSamplesView" />
 				</div>
 			</div>
 		</div>
+
 
 		<g:if test="${plateInstance?.plateType?.name == "Plate384"}">
 			<h3>
 				<g:message code="plate.q1Plate.label" default="Children Plate" />
 			</h3>
-
-			<table>
-				<tr>
-					<td>
-						<span class="uneditable-input" aria-labelledby="q1Plate-label"><g:link controller="plate" action="show" id="${q1Plate?.id}">${plateInstance.q1Plate?.encodeAsHTML()}</g:link></span>
-					</td>
-				<tr>
-					<td>
-						<span class="uneditable-input" aria-labelledby="q2Plate-label"><g:link controller="plate" action="show" id="${q2Plate?.id}"> ${plateInstance.q2Plate?.encodeAsHTML()}</g:link></span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="uneditable-input" aria-labelledby="q2Plate-label"><g:link controller="plate" action="show" id="${q3Plate?.id}"> ${plateInstance.q3Plate?.encodeAsHTML()}</g:link></span>
-					</td>
-				</tr>
-			<tr>
-					<td>
-						<span class="uneditable-input" aria-labelledby="q2Plate-label"><g:link controller="plate" action="show" id="${q4Plate?.id}"> ${plateInstance.q4Plate?.encodeAsHTML()}</g:link></span>
-					</td>
-				</tr>
-			</table>
+			<div class="row-fluid">
+				<div class="span4">
+					<table class="table table-bordered">
+						<tr>
+							<td>
+								<h5>Quadrant 1:</h5>
+								<span class="uneditable-input input-medium" aria-labelledby="q1Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo" update="showPlateInfo" id="${plateInstance.q1Plate?.id}">${plateInstance.q1Plate?.encodeAsHTML()}
+									</g:remoteLink></span>
+							</td>
+							<td>
+								<h5>Quadrant 2:</h5>
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo"  id="${plateInstance.q2Plate?.id}">${plateInstance.q2Plate?.encodeAsHTML()}
+									</g:remoteLink></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h5>Quadrant 3:</h5>
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo"  id="${plateInstance.q3Plate?.id}">${plateInstance.q3Plate?.encodeAsHTML()}
+									</g:remoteLink></span>
+							</td>
+							<td>
+								<h5>Quadrant 4:</h5>
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo" id="${plateInstance.q4Plate?.id}">${plateInstance.q4Plate?.encodeAsHTML()}
+									</g:remoteLink></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="span6">
+					<div id="showPlateInfo">
+						<g:render template="showPlateInfo" />
+					</div>
+				</div>
+			</div>
 		</g:if>
+
 	</div>
 </body>
 </html>
