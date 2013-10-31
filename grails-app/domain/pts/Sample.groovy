@@ -7,6 +7,7 @@ class Sample {
 
 	String sampleId
 	String well
+	Integer wellNumber
 	Double sampleVol
 	Double dnaAmount
 	String dnaSource
@@ -20,6 +21,7 @@ class Sample {
 	static constraints = {
 		sampleId size: 1..12, blank: false, nullable: false
 		well size: 1..8, blank: false, nullable: false
+		wellNumber blank: false, nullable: false
 		sampleVol min: 0.0D, nullable: false, blank: false
 		dnaAmount min: 0.0D, nullable: false, blank: false
 		dnaSource size: 1..24

@@ -24,6 +24,8 @@
 
 					<g:sortableColumn property="well" title="${message(code: 'samplesInPlate.well.label', default: 'Well')}" />
 
+					<g:sortableColumn property="wellNumber" title="${message(code: 'samplesInPlate.wellNumber.label', default: 'Well #')}" />
+
 					<g:sortableColumn property="sampleVol" title="${message(code: 'samplesInPlate.sampleVol.label', default: 'Sample Vol')}" />
 
 					<g:sortableColumn property="dnaAmount" title="${message(code: 'samplesInPlate.dnaAmount.label', default: 'Dna Amount')}" />
@@ -46,6 +48,10 @@
 
 						<td>
 							${fieldValue(bean: samplesInPlateInstance, field: "well")}
+						</td>
+						
+						<td>
+							${fieldValue(bean: samplesInPlateInstance, field: "wellNumber")}
 						</td>
 
 						<td>
