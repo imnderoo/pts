@@ -7,6 +7,8 @@ class Project {
 	static hasMany = [plate:Plate]
 	static belongsTo = [investigator:Investigator]
 
+	static mapping = { plate sort: 'intPlateId' }
+
 	static constraints = {
 		name size: 1..24, blank: false
 		investigator blank: false, nullable: false
