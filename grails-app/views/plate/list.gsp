@@ -25,13 +25,13 @@
 
 					<g:sortableColumn property="extPlateId" title="${message(code: 'plate.extPlateId.label', default: 'Ext Plate Id')}" />
 
-					<th><g:message code="plate.plateType.label" default="Plate Type" /></th>
-
+					<g:sortableColumn property="plateType" title="${message(code: 'plate.plateType.label', default: 'Plate Type')}" />
+					
 					<g:sortableColumn property="createdBy" title="${message(code: 'plate.createdBy.label', default: 'Created By')}" />
 
 					<g:sortableColumn property="createdDate" title="${message(code: 'plate.createdDate.label', default: 'Created Date')}" />
 
-					<th><g:message code="plate.project.label" default="Project" /></th>
+					<g:sortableColumn property="project" title="${message(code: 'plate.project.label', default: 'Project')}" />
 				</tr>
 			</thead>
 			<tbody>
