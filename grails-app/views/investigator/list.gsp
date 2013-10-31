@@ -16,29 +16,71 @@
 				${flash.message}
 			</div>
 		</g:if>
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr class="info">
+		<%--		<table class="table table-striped table-bordered">--%>
+		<%--			<thead>--%>
+		<%--				<tr class="info">--%>
+		<%----%>
+		<%--					<g:sortableColumn property="lastName" title="${message(code: 'investigator.lastName.label', default: 'Name')}" />--%>
+		<%----%>
+		<%--				</tr>--%>
+		<%--			</thead>--%>
+		<%--			<tbody>--%>
+		<%--				<g:each in="${investigatorInstanceList}" status="i" var="investigatorInstance">--%>
+		<%--					<tr>--%>
+		<%--						<td>--%>
+		<%--							<g:link action="show" id="${investigatorInstance.id}">--%>
+		<%--								${fieldValue(bean: investigatorInstance, field: "lastName")}, ${fieldValue(bean: investigatorInstance, field: "firstName")}--%>
+		<%--							</g:link>--%>
+		<%--						</td>--%>
+		<%--					</tr>--%>
+		<%--				</g:each>--%>
+		<%--			</tbody>--%>
+		<%--		</table>--%>
 
-					<g:sortableColumn property="lastName" title="${message(code: 'investigator.lastName.label', default: 'Name')}" />
-
-				</tr>
-			</thead>
-			<tbody>
-				<g:each in="${investigatorInstanceList}" status="i" var="investigatorInstance">
-					<tr>
-						<td>
-							<g:link action="show" id="${investigatorInstance.id}">
-
-								${fieldValue(bean: investigatorInstance, field: "lastName")}, ${fieldValue(bean: investigatorInstance, field: "firstName")}
+		<div class="accordion" id="investigatorAccordion">
+			<g:each in="${investigatorInstanceList}" status="i" var="investigatorInstance">
+				<div class="accordion-group">
+					<div class="accordion-custom">
+						<a data-toggle="collapse" data-parent="#investigatorAccordion" href="#collapse${i}"> ${fieldValue(bean: investigatorInstance, field: "lastName")},
+							${fieldValue(bean: investigatorInstance, field: "firstName")}
+						</a>
+						<div class="pull-right btn-group">
+							<g:link class="btn btn-mini" action="edit" id="${investigatorInstance?.id}">
+								<i class="icon-edit"></i>
 							</g:link>
-						</td>
-					</tr>
-				</g:each>
-			</tbody>
-		</table>
-		<div class="pagination">
-			<g:paginate total="${investigatorInstanceTotal}" />
+							<g:link class="btn btn-mini" action="delete" id="${investigatorInstance?.id}"
+								onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
+								<i class="icon-trash"></i>	
+							</g:link>
+						</div>
+					</div>
+					<div id="collapse${i}" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<g:if test="${investigatorInstance?.project}">
+
+								<h4>Project List</h4>
+
+								<table class="table table-bordered">
+
+									<g:each in="${investigatorInstance.project}" var="p">
+										<tr>
+											<td>
+												<g:link controller="project" action="show" id="${p.id}">
+													${p?.encodeAsHTML()}
+												</g:link>
+											</td>
+										</tr>
+									</g:each>
+								</table>
+							</g:if>
+							<g:else>
+								<h3>No Projects Found</h3>
+							</g:else>
+						</div>
+					</div>
+				</div>
+
+			</g:each>
 		</div>
 	</div>
 </body>
