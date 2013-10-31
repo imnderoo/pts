@@ -38,40 +38,15 @@
 				</g:if>
 			
 				<g:if test="${projectInstance?.investigator}">
-				
-				<div class="control-group">
-
-					<label id="investigator-label" class="control-label"><g:message code="project.investigator.label" default="Investigator" /></label>
-					
-					<div class="controls">
-					
-						<span class="uneditable-input" aria-labelledby="investigator-label"><g:link controller="investigator" action="show" id="${projectInstance?.investigator?.id}">${projectInstance?.investigator?.encodeAsHTML()}</g:link></span>
+					<div class="control-group">
+						<label id="investigator-label" class="control-label"><g:message code="project.investigator.label" default="Investigator" /></label>
+						<div class="controls">
+							<span class="uneditable-input" aria-labelledby="investigator-label"><g:link controller="investigator" action="show" id="${projectInstance?.investigator?.id}">${projectInstance?.investigator?.encodeAsHTML()}</g:link></span>						
+						</div>
 					
 					</div>
-					
-				</div>
 				</g:if>
-			
-				<g:if test="${projectInstance?.plate}">
-				
-				<div class="control-group">
 
-					<label id="plate-label" class="control-label"><g:message code="project.plate.label" default="Plate" /></label>
-					
-					<div class="controls">
-					
-						<g:each in="${projectInstance.plate}" var="p">
-						<span class="uneditable-input" aria-labelledby="plate-label"><g:link controller="plate" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-					</div>
-					
-				</div>
-				</g:if>
-			
-
-
-	
 			<fieldset class="buttons">
 				<div class="control-groups">
 					<div class="controls">
@@ -86,6 +61,19 @@
 				</div>
 			</fieldset>
 		</g:form>
+
+		<g:if test="${projectInstance?.plate}">
+		<h3>Plate List</h3>
+			<table class="table table-striped table-bordered">
+				<g:each in="${projectInstance.plate}" var="p">
+					<tr>
+						<td>
+							<g:link controller="plate" action="show"id="${p.id}">${p?.encodeAsHTML()}</g:link>
+						</td>
+					</tr>
+				</g:each>
+			</table>
+		</g:if>
 	</div>
 </body>
 </html>
