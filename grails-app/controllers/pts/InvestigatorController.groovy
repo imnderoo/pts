@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class InvestigatorController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST"]
 
     def index() {
         redirect(action: "list", params: params)
@@ -78,26 +78,26 @@ class InvestigatorController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'investigator.label', default: 'Investigator'), investigatorInstance.id])
-        redirect(action: "show", id: investigatorInstance.id)
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'investigator.label', default: 'Investigator'), "\"" + investigatorInstance.lastName + ", " + investigatorInstance.firstName + "\""])
+        redirect(action: "list")
     }
 
     def delete(Long id) {
         def investigatorInstance = Investigator.get(id)
         if (!investigatorInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'investigator.label', default: 'Investigator'), "\"" + investigatorInstance.lastName + ", " + investigatorInstance.firstName + "\""])
             redirect(action: "list")
             return
         }
 
         try {
             investigatorInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'investigator.label', default: 'Investigator'), "\"" + investigatorInstance.lastName + ", " + investigatorInstance.firstName + "\""])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
-            redirect(action: "show", id: id)
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'investigator.label', default: 'Investigator'), "\"" + investigatorInstance.lastName + ", " + investigatorInstance.firstName + "\""])
+            redirect(action: "list")
         }
     }
 }
