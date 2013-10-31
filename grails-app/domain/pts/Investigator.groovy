@@ -13,7 +13,10 @@ class Investigator {
 		firstName (unique: 'lastName')
 	}
 
-	static mapping = { project cascade: 'save-update' }
+	static mapping = {
+		sort lastName: "asc"
+		project cascade: 'save-update'
+	}
 
 	public String toString() {
 		return lastName + ", " + firstName
