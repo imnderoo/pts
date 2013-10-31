@@ -94,36 +94,44 @@
 			</div>
 		</div>
 		<div class="span6">
-			<table border="1">
+			<table class="table table-bordered">
 				<tr>
 					<td>
-						Quadrant 1:<br>
+						<h5>Quadrant 1:</h5>
 						<g:textField id="q1Plate.name" name="q1Plate.name" class="searchPlate96 input-medium" placeholder="Q1 PlateID" value=""
 							required="" />
-						<g:textField id="q1Plate.id" name="q1Plate.id" class="searchPlate96Result" value="-1" />
+						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q1Plate', 'error')} required">
+							<g:hiddenField id="q1Plate.id" name="q1Plate.id" class="searchPlate96Result" value="-1" />
+						</div>
 
 					</td>
 					<td>
-						Quadrant 2:<br>
+						<h5>Quadrant 2:</h5>
 						<g:textField id="q2Plate.name" name="q2Plate.name" class="searchPlate96 input-medium" placeholder="Q2 PlateID" value=""
 							required="" />
-						<g:textField id="q2Plate.id" name="q2Plate.id" class="searchPlate96Result" value="-1" />
+						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q2Plate', 'error')} required">
+							<g:hiddenField id="q2Plate.id" name="q2Plate.id" class="searchPlate96Result" value="-1" />
+						</div>
 
 					</td>
 				</tr>
 				<tr>
 					<td>
-						Quadrant 3:<br>
+						<h5>Quadrant 3:</h5>
 						<g:textField id="q3Plate.name" name="q3Plate.name" class="searchPlate96 input-medium" placeholder="Q3 PlateID" value=""
 							required="" />
-						<g:textField id="q3Plate.id" name="q3Plate.id" class="searchPlate96Result" value="-1" />
+						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q3Plate', 'error')} required">
+							<g:hiddenField id="q3Plate.id" name="q3Plate.id" class="searchPlate96Result" value="-1" />
+						</div>
 
 					</td>
 					<td>
-						Quadrant 4:<br>
+						<h5>Quadrant 4:</h5>
 						<g:textField id="q4Plate.name" name="q4Plate.name" class="searchPlate96 input-medium" placeholder="Q4 PlateID" value=""
 							required="" />
-						<g:textField id="q4Plate.id" name="q4Plate.id" class="searchPlate96Result" value="-1" />
+						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q4Plate', 'error')} required">
+							<g:hiddenField id="q4Plate.id" name="q4Plate.id" class="searchPlate96Result" value="-1" />
+						</div>
 
 					</td>
 				</tr>

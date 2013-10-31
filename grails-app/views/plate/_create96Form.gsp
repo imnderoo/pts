@@ -6,7 +6,7 @@
 			<span class="required-indicator">*</span>
 		</label>
 		<div class="controls">
-			<g:textField name="intPlatePrefix" maxlength="8" required="" />
+			<g:textField class="input-medium" name="intPlatePrefix" maxlength="8" required="" pattern="[a-zA-Z]+" placeholder="Alphabet Only"/>
 		</div>
 	</div>
 </div>
@@ -16,7 +16,7 @@
 	<div class="controls">
 		<div class="fileupload fileupload-new" data-provides="fileupload">
 			<div class="input-append">
-				<span class="uneditable-input fileupload-preview"></span> <span class="btn btn-file"> <span class="fileupload-new">Select
+				<span class="uneditable-input fileupload-preview input-medium"></span> <span class="btn btn-file"> <span class="fileupload-new">Select
 						file</span> <span class="fileupload-exists">Change</span> <input type="file" name="file" /></span><a href="#"
 					class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
 			</div>
@@ -32,7 +32,7 @@
 
 		</label>
 		<div class="controls">
-			<g:select name="enzymeUsed" from="${plateInstance.constraints.enzymeUsed.inList}" value="${plateInstance?.enzymeUsed}"
+			<g:select  class="input-medium"  name="enzymeUsed" from="${plateInstance.constraints.enzymeUsed.inList}" value="${plateInstance?.enzymeUsed}"
 				valueMessagePrefix="plate.enzymeUsed" noSelection="['': '']" />
 		</div>
 	</div>
@@ -46,7 +46,7 @@
 
 		</label>
 		<div class="controls">
-			<g:select name="pcrCondition" from="${plateInstance.constraints.pcrCondition.inList}"
+			<g:select  class="input-medium" name="pcrCondition" from="${plateInstance.constraints.pcrCondition.inList}"
 				value="${plateInstance?.pcrCondition}" valueMessagePrefix="plate.pcrCondition" noSelection="['': '']" />
 		</div>
 	</div>
@@ -60,7 +60,7 @@
 
 		</label>
 		<div class="controls">
-			<g:select name="reactionSize" from="${plateInstance.constraints.reactionSize.inList}"
+			<g:select  class="input-medium" name="reactionSize" from="${plateInstance.constraints.reactionSize.inList}"
 				value="${plateInstance?.reactionSize}" valueMessagePrefix="plate.reactionSize" noSelection="['': '']" />
 		</div>
 	</div>
@@ -74,7 +74,7 @@
 
 		</label>
 		<div class="controls">
-			<g:textField name="chipId" value="${plateInstance?.chipId}" />
+			<g:textField  class="input-medium" name="chipId" value="${plateInstance?.chipId}" />
 		</div>
 	</div>
 </div>

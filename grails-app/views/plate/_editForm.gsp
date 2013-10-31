@@ -1,20 +1,6 @@
 <div class="row-fluid">
 	<div class="span5">
-		<div class="control-group">
 
-			<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'project', 'error')} required">
-
-				<label class="control-label" for="project">
-					<g:message code="plate.project.label" default="Project" />
-					<span class="required-indicator">*</span>
-				</label>
-				<div class="controls">
-					<g:textField name="project.name" maxlength="8" required="" readonly="true" value="${plateInstance?.project}" />
-					<g:hiddenField name="project.id" maxlength="8" required="" readonly="true" value="${plateInstance?.project?.id}" />
-				</div>
-			</div>
-
-		</div>
 
 		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">
 			<div class="control-group">
@@ -42,21 +28,22 @@
 			</div>
 		</div>
 
-		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'plateType', 'error')} required">
+		<div class="control-group">
 
-			<div class="control-group">
+			<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'project', 'error')} required">
 
-				<label class="control-label" for="plateType">
-					<g:message code="plate.extPlateId.label" default="Plate Type" />
+				<label class="control-label" for="project">
+					<g:message code="plate.project.label" default="Project" />
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField name="plateType.name" maxlength="8" required="" readonly="true" value="${plateInstance?.plateType}" />
-					<g:hiddenField name="plateType.id" maxlength="8" required="" readonly="true" value="${plateInstance?.plateType?.id}" />
+					<g:textField name="project.name" maxlength="8" required="" readonly="true" value="${plateInstance?.project}" />
+					<g:hiddenField name="project.id" maxlength="8" required="" readonly="true" value="${plateInstance?.project?.id}" />
 				</div>
 			</div>
+
 		</div>
-		
+
 		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'createdBy', 'error')} required">
 			<div class="control-group">
 
@@ -78,13 +65,29 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField class="datepicker" name="createdDate" maxlength="10" required="" value="${formatDate(date:plateInstance?.createdDate, format:"dd-MM-yyyy")}" placeholder="DD-MM-YYYY" />
+					<g:textField class="datepicker" name="createdDate" maxlength="10" required=""
+						value="${formatDate(date:plateInstance?.createdDate, format:"dd-MM-yyyy")}" placeholder="DD-MM-YYYY" />
 				</div>
 			</div>
 		</div>
 
 	</div>
 	<div class="span5">
+	
+		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'plateType', 'error')} required">
+			<div class="control-group">
+
+				<label class="control-label" for="plateType">
+					<g:message code="plate.extPlateId.label" default="Plate Type" />
+					<span class="required-indicator">*</span>
+				</label>
+				<div class="controls">
+					<g:textField name="plateType.name" maxlength="8" required="" readonly="true" value="${plateInstance?.plateType}" />
+					<g:hiddenField name="plateType.id" maxlength="8" required="" readonly="true" value="${plateInstance?.plateType?.id}" />
+				</div>
+			</div>
+		</div>
+		
 		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'enzymeUsed', 'error')} ">
 			<div class="control-group">
 
