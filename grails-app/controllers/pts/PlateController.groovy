@@ -117,6 +117,7 @@ class PlateController {
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(1)
 			samplesInPlateMap['well'] = cell.getStringCellValue()
+			samplesInPlateMap['wellNumber'] = rowNo - 5
 
 			row = sheet.getRow(rowNo)
 			cell = row.getCell(2, Row.CREATE_NULL_AS_BLANK)
@@ -189,12 +190,10 @@ class PlateController {
 		params.extPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
 		params.createdDate = new Date()
 		
-		println(params)
-		
 		def plateInstance = new Plate(params)
 		
 		plateInstance.setPlateType(PlateType.findByName("Plate384"))
-		println('PLATEID' + params.q2Plate.id)
+		
 		plateInstance.setQ1Plate(Plate.findByIntPlateId(params.q1Plate.name))
 		plateInstance.setQ2Plate(Plate.findByIntPlateId(params.q2Plate.name))
 		plateInstance.setQ3Plate(Plate.findByIntPlateId(params.q3Plate.name))
@@ -238,7 +237,7 @@ class PlateController {
 		[plateInstance: plateInstance, samplesGridView: samplesGridView, samplesListView: samplesListView]
 	}
 
-	def renderShowSample() {
+	def renderSamplesView() {
 		def plateInstance = Plate.get(params.id)
 
 		def samplesGridView = null
@@ -247,15 +246,20 @@ class PlateController {
 		if(!params.samplesListView)
 		{
 			samplesGridView = plateInstance.getSamples()
-			println "Grid"
 		}
 		else
 		{
 			samplesListView = plateInstance.getSamples()
-			println "List"
 		}
-		render(template: "showSample", model: [samplesGridView: samplesGridView, samplesListView: samplesListView])
+		render(template: "showSamplesView", model: [samplesGridView: samplesGridView, samplesListView: samplesListView])
 	}
+	
+	def renderPlateInfo() {
+		def qPlateInstance = Plate.get(params.id)
+		println("renderPlateInfo")
+		render(template: "showPlateInfo", model: [qPlateInstance: qPlateInstance])
+	}
+
 
 	def clone(Long id) {
 
