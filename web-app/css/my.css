@@ -46,3 +46,11 @@ th.desc a {
 .input-smaller {
 	width: 78px;	
 }
+
+.accordion-custom {
+  padding: 8px 14px 8px 14px;
+  border: 1px #e5e5e5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
