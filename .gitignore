@@ -3,8 +3,12 @@
 target/
 target-eclipse/
 test/
+web-app/files/
+web-app/labels/
 *.iws
 *.jar
 *.csv
 *.dat
 *.war
+*.cmd
+*.swp
