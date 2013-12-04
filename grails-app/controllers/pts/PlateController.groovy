@@ -19,7 +19,34 @@ class PlateController {
 
 	def list(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		[plateInstanceList: Plate.list(params), plateInstanceTotal: Plate.count()]
+		params.max = Math.min(max ?: 5, 100)
+
+		def intPlateIdFilter = params.intPlateId ?: ""
+		def extPlateIdFilter = params.extPlateId ?: ""
+		intPlateIdFilter = "%" + intPlateIdFilter + "%"
+		extPlateIdFilter = "%" + extPlateIdFilter + "%"
+
+		def projectFilter
+
+		if(params.int('projectId') > 0) {
+			projectFilter = Project.getAll([params.projectId])
+		}
+		else {
+			projectFilter = Project.getAll()
+		}
+
+		def plateType96 = PlateType.findByName('Plate96')
+		def plate96List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+		def plate96Total =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter,  params)
+
+		def plateType384 = PlateType.findByName('Plate384')
+		def plate384List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+		def plate384Total =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+
+
+		[plate96List: plate96List, plate96Total: plate96Total, plate384List: plate384List, plate384Total: plate384Total]
+	}
+
 	}
 
 	def create96() {
