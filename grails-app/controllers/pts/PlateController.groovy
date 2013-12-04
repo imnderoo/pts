@@ -443,13 +443,11 @@ class PlateController {
 		}
 	}
 
-	def getHighestPlateNumber(String intPlatePrefix){
-		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
-		def plateHighestId = 0
 	def exportSampleList(Long id)
 	{
 		def plateInstance = Plate.get(id)
 
+		if (params.format == "sequenome")
 		{
 			def sequenome = plateService.exportSampleSequenome(plateInstance)
 
