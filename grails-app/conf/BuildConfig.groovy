@@ -36,6 +36,7 @@ grails.project.dependency.resolution = {
 
 		runtime 'mysql:mysql-connector-java:5.1.20'
 		runtime 'org.apache.poi:poi-ooxml:3.9'
+
 	}
 
 	plugins {
@@ -51,7 +52,9 @@ grails.project.dependency.resolution = {
 
 		build ":tomcat:$grailsVersion"
 
-		compile ':cache:1.0.0'
+		compile ':cache:1.1.1'
+		compile ':remote-pagination:0.4.6'
+
 
 	}
 }
