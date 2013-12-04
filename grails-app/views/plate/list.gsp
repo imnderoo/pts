@@ -38,8 +38,16 @@
 			</div>
 		</div>
 
+		<div class="row-fluid">
+			<div id="listPlate384" class="span7">
+				<g:render template="listPlate384" />
+			</div>
 
+			<div id="listPlate96" class="span5">
+				<g:render template="listPlate96" />
+			</div>
 		</div>
+
 	</div>
 </body>
 </html>
