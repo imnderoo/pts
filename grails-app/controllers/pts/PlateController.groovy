@@ -148,6 +148,7 @@ class PlateController {
 		params.intPlateId = intPlateId.toUpperCase()
 		params.extPlateId = extPlateId
 		params.createdDate = createdDate
+		
 		plateInstance = new Plate(params)
 		
 		plateInstance.setPlateType(PlateType.findByName("Plate96"))
@@ -247,21 +248,20 @@ class PlateController {
 
 		// Read PlatePrefix from form and find the next highest PlateID
 		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
-		def highestPlateNum = getHighestPlateNumber(intPlatePrefix)
+		def highestPlateNum = plateService.getHighestPlateNumber(intPlatePrefix)
 
 		params.intPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
 		params.extPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
 		params.createdDate = new Date()
-		
 		def plateInstance = new Plate(params)
-		
 		plateInstance.setPlateType(PlateType.findByName("Plate384"))
 		
+
 		plateInstance.setQ1Plate(Plate.findByIntPlateId(params.q1Plate.name))
 		plateInstance.setQ2Plate(Plate.findByIntPlateId(params.q2Plate.name))
 		plateInstance.setQ3Plate(Plate.findByIntPlateId(params.q3Plate.name))
 		plateInstance.setQ4Plate(Plate.findByIntPlateId(params.q4Plate.name))
-		
+
 		plateInstance.setCreatedBy("Bob")
 
 		if (!plateInstance.save(flush:true))
@@ -272,6 +272,8 @@ class PlateController {
 		}
 
 		plateInstance.refresh()
+
+		plateService.printLabel(plateInstance)
 
 		render(view: "show", model: [plateInstance: plateInstance])
 		return
@@ -288,6 +290,8 @@ class PlateController {
 		def samplesGridView = null
 		def samplesListView = null
 
+		def motherPlateList = plateService.getMotherPlates(plateInstance)
+
 		if(!params.samplesListView)
 		{
 			samplesGridView = plateInstance.getSamples()
@@ -298,9 +302,10 @@ class PlateController {
 		}
 
 		[plateInstance: plateInstance, samplesGridView: samplesGridView, samplesListView: samplesListView]
+		[plateInstance: plateInstance, samplesGridView: samplesGridView, samplesListView: samplesListView, motherPlateList: motherPlateList]
 	}
 
-	def renderSamplesView() {
+	def render_showSamplesView() {
 		def plateInstance = Plate.get(params.id)
 
 		def samplesGridView = null
@@ -316,8 +321,8 @@ class PlateController {
 		}
 		render(template: "showSamplesView", model: [samplesGridView: samplesGridView, samplesListView: samplesListView])
 	}
-	
-	def renderPlateInfo() {
+
+	def render_showPlateInfo() {
 		def qPlateInstance = Plate.get(params.id)
 		println("renderPlateInfo")
 		render(template: "showPlateInfo", model: [qPlateInstance: qPlateInstance])
@@ -356,7 +361,12 @@ class PlateController {
 
 		flash.message = "The cloned plate is automatically assigned the internal ID " + intPlateId
 
-		[plateInstance: newPlateInstance]
+
+		plateService.printLabel(newPlateInstance)
+
+		def samplesGridView = newPlateInstance.getSamples()
+
+		[plateInstance: newPlateInstance, samplesGridView: samplesGridView, samplesListView: null]
 	}
 
 	def edit(Long id) {
