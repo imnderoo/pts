@@ -18,11 +18,11 @@ class PlateController {
 	}
 
 	def list(Integer max) {
-		params.max = Math.min(max ?: 10, 100)
 		params.max = Math.min(max ?: 5, 100)
 
 		def intPlateIdFilter = params.intPlateId ?: ""
 		def extPlateIdFilter = params.extPlateId ?: ""
+
 		intPlateIdFilter = "%" + intPlateIdFilter + "%"
 		extPlateIdFilter = "%" + extPlateIdFilter + "%"
 
@@ -47,6 +47,24 @@ class PlateController {
 		[plate96List: plate96List, plate96Total: plate96Total, plate384List: plate384List, plate384Total: plate384Total]
 	}
 
+	def render_listPlate96(Integer max) {
+		params.max = Math.min(max ?: 5, 100)
+
+		def plateType96= PlateType.findByName('Plate96')
+		def plate96List = Plate.findAllByPlateType(plateType96, params)
+		def plate96Total =  Plate.countByPlateType(plateType96, params)
+
+		render(template:"listPlate96", model:[plate96List: plate96List, plate96Total: plate96Total])
+	}
+
+	def render_listPlate384(Integer max) {
+		params.max = Math.min(max ?: 5, 100)
+
+		def plateType384 = PlateType.findByName('Plate384')
+		def plate384List = Plate.findAllByPlateType(plateType384, params)
+		def plate384Total =  Plate.countByPlateType(plateType384, params)
+
+		render(template:"listPlate384", model:[plate384List: plate384List, plate384Total: plate384Total])
 	}
 
 	def create96() {
