@@ -253,9 +253,10 @@ class PlateController {
 		params.intPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
 		params.extPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
 		params.createdDate = new Date()
+
 		def plateInstance = new Plate(params)
+
 		plateInstance.setPlateType(PlateType.findByName("Plate384"))
-		
 
 		plateInstance.setQ1Plate(Plate.findByIntPlateId(params.q1Plate.name))
 		plateInstance.setQ2Plate(Plate.findByIntPlateId(params.q2Plate.name))
@@ -301,7 +302,6 @@ class PlateController {
 			samplesListView = plateInstance.getSamples()
 		}
 
-		[plateInstance: plateInstance, samplesGridView: samplesGridView, samplesListView: samplesListView]
 		[plateInstance: plateInstance, samplesGridView: samplesGridView, samplesListView: samplesListView, motherPlateList: motherPlateList]
 	}
 
@@ -324,7 +324,6 @@ class PlateController {
 
 	def render_showPlateInfo() {
 		def qPlateInstance = Plate.get(params.id)
-		println("renderPlateInfo")
 		render(template: "showPlateInfo", model: [qPlateInstance: qPlateInstance])
 	}
 
@@ -361,6 +360,7 @@ class PlateController {
 
 		flash.message = "The cloned plate is automatically assigned the internal ID " + intPlateId
 
+		newPlateInstance.refresh()
 
 		plateService.printLabel(newPlateInstance)
 
@@ -417,13 +417,28 @@ class PlateController {
 			return
 		}
 
-		try {
-			plateInstance.delete(flush: true)
-			flash.message = message(code: 'default.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
-			redirect(action: "list")
+		def motherq1plateList = Plate.findAllByQ1Plate(plateInstance)
+		def motherq2plateList = Plate.findAllByQ2Plate(plateInstance)
+		def motherq3plateList = Plate.findAllByQ3Plate(plateInstance)
+		def motherq4plateList = Plate.findAllByQ4Plate(plateInstance)
+
+		def motherPlateList = motherq1plateList + motherq2plateList + motherq3plateList + motherq4plateList
+
+		if (motherPlateList.isEmpty()) //not null or empty
+		{
+			try {
+				plateInstance.delete(flush: true)
+				flash.message = message(code: 'default.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
+				redirect(action: "list")
+			}
+			catch (DataIntegrityViolationException e) {
+				flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
+				redirect(action: "show", id: id)
+			}
 		}
-		catch (DataIntegrityViolationException e) {
-			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.intPlateId])
+		else
+		{
+			flash.message = "Plate is part of a 384 Plate. Cannot be deleted."
 			redirect(action: "show", id: id)
 		}
 	}
