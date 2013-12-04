@@ -7,7 +7,7 @@
 <title>Clone Plate</title>
 </head>
 <body>
-	<div id="edit-plate" class="content span8 scaffold-edit" role="main">
+	<div id="edit-plate" class="content span12 scaffold-edit" role="main">
 		<h1>Clone Plate</h1>
 		<g:if test="${flash.message}">
 			<div class="alert alert-info" role="status">
@@ -33,28 +33,32 @@
 			<fieldset class="buttons">
 				<div class="control-group">
 					<div class="controls">
-						<g:actionSubmit class="btn" action="update" value="Update" />
+						<g:actionSubmit class="btn" action="update" value="Save" />
 						<g:actionSubmit class="btn btn-danger" action="delete" value="Delete" />
 					</div>
 				</div>
 			</fieldset>
 
-			<fieldset class="samples">
+			<div class="row-fluid">
 				<div class="span12">
 
 					<g:if test="${plateInstance?.samples}">
-
 						<h3>
 							<g:message code="plate.samples.label" default="Samples In Plate" />
+
+							<span class="btn-group" data-toggle="buttons-radio"> <g:remoteLink class="btn active"
+									action="renderSamplesView" id="${plateInstance.id}" update="showSamplesView" params="[samplesGridView:'true']">
+									<i class="icon-th"></i> Grid</g:remoteLink> <g:remoteLink class="btn" action="renderSamplesView" id="${plateInstance.id}"
+									update="showSamplesView" params="[samplesListView:'true']">
+									<i class="icon-list"></i> List</g:remoteLink>
+							</span>
 						</h3>
-
-						<g:each in="${plateInstance.samples}" var="s">
-							<span class="uneditable-input input-small" aria-labelledby="samplesInPlate-label"><g:link controller="sample" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-						</g:each>
-
 					</g:if>
+					<div id="showSamplesView">
+						<g:render template="showSamplesView" />
+					</div>
 				</div>
-			</fieldset>
+			</div>
 		</g:form>
 	</div>
 </body>
