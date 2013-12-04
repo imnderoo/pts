@@ -172,6 +172,19 @@
 								id="${plateInstance.id}" update="showSamplesView" params="[samplesGridView:'true']"><i class="icon-th"></i> Grid</g:remoteLink> <g:remoteLink
 								class="btn" action="renderSamplesView" id="${plateInstance.id}" update="showSamplesView" params="[samplesListView:'true']"><i class="icon-list"></i> List</g:remoteLink>
 						</span>
+						
+						<div class="btn-group">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="dropdown-menu">
+								Export <span class="caret"></span>
+							</a>
+							
+							<ul class="dropdown-menu">
+								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'sequenome']">To Sequenome</g:link></li>
+								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvGrid']">To CSV (Grid)</g:link></li>
+								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvList']">To CSV (List)</g:link></li>
+							</ul>
+						</div>
+						
 					</h3>
 				</g:if>
 				<div id="showSamplesView">
