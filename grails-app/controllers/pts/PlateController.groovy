@@ -5,9 +5,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.dao.DataIntegrityViolationException
 
 
+
+
 class PlateController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+	def plateService
 
 	def index() {
 		redirect(action: "list", params: params)
