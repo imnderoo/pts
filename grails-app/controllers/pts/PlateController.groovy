@@ -481,8 +481,38 @@ class PlateController {
 		}
 	}
 
+	def exportPlateList()
+	{
+		println params
+				
+		def intPlateIdFilter = params.intPlateId ?: ""
+		def extPlateIdFilter = params.extPlateId ?: ""
+
+		intPlateIdFilter = "%" + intPlateIdFilter + "%"
+		extPlateIdFilter = "%" + extPlateIdFilter + "%"
+
+		def projectFilter
+
+		if(params.int('projectId') > 0) {
+			projectFilter = Project.getAll([params.projectId])
+		}
+		else {
+			projectFilter = Project.getAll()
 		}
 
-		return plateHighestId
+		def plateType96 = PlateType.findByName('Plate96')
+		def plate96List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter)
+
+		def plateType384 = PlateType.findByName('Plate384')
+		def plate384List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter)
+
+		//def plateList = plateService.exportPlateCSV(params.list('plate384List'), params.list('plate96List'))
+		def plateList = plateService.exportPlateCSV(plate384List, plate96List)
+		
+		//CSV
+		response.setHeader "Content-disposition", "attachment; filename=" + "test_list.csv"
+		response.contentType = 'text/csv'
+		response.outputStream << plateList.text
+		response.outputStream.flush()
 	}
 }
