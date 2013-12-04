@@ -1,7 +1,7 @@
 <div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">
 
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span8">
 			<div class="control-group">
 				<label class="control-label" for="intPlateId">
 					<g:message code="plate.intPlateId.label" default="Int Plate Prefix" />
@@ -93,7 +93,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="span6">
+		<div class="span4">
 			<table class="table table-bordered">
 				<tr>
 					<td>
