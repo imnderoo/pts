@@ -446,11 +446,41 @@ class PlateController {
 	def getHighestPlateNumber(String intPlatePrefix){
 		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
 		def plateHighestId = 0
+	def exportSampleList(Long id)
+	{
+		def plateInstance = Plate.get(id)
 
-		if	(!plateSearchResult.isEmpty())
 		{
-			plateSearchResult = plateSearchResult.first().getIntPlateId()
-			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
+			def sequenome = plateService.exportSampleSequenome(plateInstance)
+
+			//TXT
+			response.setHeader "Content-disposition", "attachment; filename=" + plateInstance.getIntPlateId() + "_sequenome.txt"
+			response.contentType = 'text/txt'
+			response.outputStream << sequenome.text
+			response.outputStream.flush()
+		}
+		if (params.format == "csvList")
+		{
+			def csvList = plateService.exportSampleCSV(plateInstance, "list")
+
+			//CSV
+			response.setHeader "Content-disposition", "attachment; filename=" + plateInstance.getIntPlateId() + "_list.csv"
+			response.contentType = 'text/csv'
+			response.outputStream << csvList.text
+			response.outputStream.flush()
+		}
+		else if (params.format == "csvGrid")
+		{
+			def csvGrid = plateService.exportSampleCSV(plateInstance, "grid")
+
+			//CSV
+			response.setHeader "Content-disposition", "attachment; filename=" + plateInstance.getIntPlateId() + "_grid.csv"
+			response.contentType = 'text/csv'
+			response.outputStream << csvGrid.text
+			response.outputStream.flush()
+		}
+	}
+
 		}
 
 		return plateHighestId
