@@ -234,6 +234,30 @@
 				</div>
 			</div>
 		</g:if>
+		
+		<g:if test="${motherPlateList}">
+			<h3>
+				<g:message code="plate.q1Plate.label" default="Mother Plate" />
+			</h3>
+			<div class="row-fluid">
+				<div class="span4">
+					<table class="table table-striped table-bordered">
+						<tr class="info">
+							<td>
+								<b>Plate ID</b>
+							</td>
+						</tr>
+						<g:each in="${motherPlateList}" var="m" status="count">
+							<tr>
+								<td>
+									<g:link class="small-text" controller="plate" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link>
+								</td>
+							</tr>
+						</g:each>
+					</table>
+				</div>
+			</div>
+		</g:if>
 
 	</div>
 </body>
