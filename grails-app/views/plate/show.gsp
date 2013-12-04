@@ -168,9 +168,9 @@
 					<h3>
 						<g:message code="plate.samples.label" default="Samples In Plate" />
 
-						<span class="btn-group" data-toggle="buttons-radio"> <g:remoteLink class="btn active" action="renderSamplesView"
+						<span class="btn-group" data-toggle="buttons-radio"> <g:remoteLink class="btn active" action="render_showSamplesView"
 								id="${plateInstance.id}" update="showSamplesView" params="[samplesGridView:'true']"><i class="icon-th"></i> Grid</g:remoteLink> <g:remoteLink
-								class="btn" action="renderSamplesView" id="${plateInstance.id}" update="showSamplesView" params="[samplesListView:'true']"><i class="icon-list"></i> List</g:remoteLink>
+								class="btn" action="render_showSamplesView" id="${plateInstance.id}" update="showSamplesView" params="[samplesListView:'true']"><i class="icon-list"></i> List</g:remoteLink>
 						</span>
 						
 						<div class="btn-group">
@@ -199,29 +199,29 @@
 				<g:message code="plate.q1Plate.label" default="Children Plate" />
 			</h3>
 			<div class="row-fluid">
-				<div class="span4">
+				<div class="span5">
 					<table class="table table-bordered">
 						<tr>
 							<td>
 								<h5>Quadrant 1:</h5>
-								<span class="uneditable-input input-medium" aria-labelledby="q1Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo" update="showPlateInfo" id="${plateInstance.q1Plate?.id}">${plateInstance.q1Plate?.encodeAsHTML()}
+								<span class="uneditable-input input-medium" aria-labelledby="q1Plate-label"><g:remoteLink controller="plate" action="render_showPlateInfo" update="showPlateInfo" id="${plateInstance.q1Plate?.id}">${plateInstance.q1Plate?.encodeAsHTML()}
 									</g:remoteLink></span>
 							</td>
 							<td>
 								<h5>Quadrant 2:</h5>
-								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo"  id="${plateInstance.q2Plate?.id}">${plateInstance.q2Plate?.encodeAsHTML()}
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="render_showPlateInfo"  update="showPlateInfo"  id="${plateInstance.q2Plate?.id}">${plateInstance.q2Plate?.encodeAsHTML()}
 									</g:remoteLink></span>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<h5>Quadrant 3:</h5>
-								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo"  id="${plateInstance.q3Plate?.id}">${plateInstance.q3Plate?.encodeAsHTML()}
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="render_showPlateInfo"  update="showPlateInfo"  id="${plateInstance.q3Plate?.id}">${plateInstance.q3Plate?.encodeAsHTML()}
 									</g:remoteLink></span>
 							</td>
 							<td>
 								<h5>Quadrant 4:</h5>
-								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="renderPlateInfo"  update="showPlateInfo" id="${plateInstance.q4Plate?.id}">${plateInstance.q4Plate?.encodeAsHTML()}
+								<span class="uneditable-input input-medium" aria-labelledby="q2Plate-label"><g:remoteLink controller="plate" action="render_showPlateInfo"  update="showPlateInfo" id="${plateInstance.q4Plate?.id}">${plateInstance.q4Plate?.encodeAsHTML()}
 									</g:remoteLink></span>
 							</td>
 						</tr>
