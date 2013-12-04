@@ -137,17 +137,29 @@ class PlateController {
 			createdDate = Date.parse("dd-MM-yyyy", createdDateString)
 		}
 
-		def plateInstance = Plate.findOrCreateByIntPlateId(intPlateId.toUpperCase())
+		def plateInstance = Plate.findByIntPlateId(intPlateId.toUpperCase())
 
-		plateInstance.setExtPlateId(extPlateId)
+		if(plateInstance)
+		{
+			flash.message = "Cannot save " + intPlateId.toUppserCase() + ". It already exists in database"
+			redirect(action: "create96")
+		}
+		
+		params.intPlateId = intPlateId.toUpperCase()
+		params.extPlateId = extPlateId
+		params.createdDate = createdDate
+		plateInstance = new Plate(params)
+		
 		plateInstance.setPlateType(PlateType.findByName("Plate96"))
-		plateInstance.setCreatedDate(createdDate)
 		plateInstance.setProject(projectInstance)
 		plateInstance.setCreatedBy(investigatorInstance.getFirstName())
-		plateInstance.setEnzymeUsed(params.enzymeUsed)
-		plateInstance.setPcrCondition(params.pcrCondition)
-		plateInstance.setReactionSize(params.reactionSize)
-		plateInstance.setChipId(params.chipId)
+		
+		//plateInstance.setExtPlateId(extPlateId)
+		//plateInstance.setCreatedDate(createdDate)		
+		//plateInstance.setEnzymeUsed(params.enzymeUsed)
+		//plateInstance.setPcrCondition(params.pcrCondition)
+		//plateInstance.setReactionSize(params.reactionSize)
+		//plateInstance.setChipId(params.chipId)
 
 		if (!plateInstance.save(flush:true))
 		{
@@ -217,6 +229,8 @@ class PlateController {
 		}
 
 		plateInstance.refresh()
+
+		plateService.printLabel(plateInstance)
 
 		redirect(view: "show", model: [plateInstance: plateInstance])
 		return
