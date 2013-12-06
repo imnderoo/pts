@@ -4,11 +4,11 @@
 <head>
 <meta name="layout" content="main">
 <g:set var="entityName"
-	value="${message(code: 'samplesInPlate.label', default: 'SamplesInPlate')}" />
+	value="${message(code: 'sample.label', default: 'sample')}" />
 <title><g:message code="default.edit.label" args="[entityName]" /></title>
 </head>
 <body>
-	<div id="edit-samplesInPlate"
+	<div id="edit-sample"
 		class="content span8 scaffold-edit" role="main">
 		<h1>
 			<g:message code="default.edit.label" args="[entityName]" />
@@ -16,9 +16,9 @@
 		<g:if test="${flash.message}">
 			<div class="alert alert-info" role="status">${flash.message}</div>
 		</g:if>
-		<g:hasErrors bean="${samplesInPlateInstance}">
+		<g:hasErrors bean="${sampleInstance}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${samplesInPlateInstance}" var="error">
+				<g:eachError bean="${sampleInstance}" var="error">
 					<li
 						<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
 							error="${error}" /></li>
@@ -27,8 +27,8 @@
 		</g:hasErrors>
 		<g:form class="form-horizontal" method="post"
 			>
-			<g:hiddenField name="id" value="${samplesInPlateInstance?.id}" />
-			<g:hiddenField name="version" value="${samplesInPlateInstance?.version}" />
+			<g:hiddenField name="id" value="${sampleInstance?.id}" />
+			<g:hiddenField name="version" value="${sampleInstance?.version}" />
 			<fieldset class="form">
 				<g:render template="form" />
 			</fieldset>

@@ -6,11 +6,11 @@
 <head>
 <meta name="layout" content="main">
 <g:set var="entityName"
-	value="${message(code: 'samplesInPlate.label', default: 'SamplesInPlate')}" />
+	value="${message(code: 'sample.label', default: 'sample')}" />
 <title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 <body>
-	<div id="show-samplesInPlate"
+	<div id="show-sample"
 		class="content span8 scaffold-show" role="main">
 		<h1>
 			<g:message code="default.show.label" args="[entityName]" />
@@ -22,135 +22,135 @@
 		<g:form class="form-horizontal">
 
 			
-				<g:if test="${samplesInPlateInstance?.sampleId}">
+				<g:if test="${sampleInstance?.sampleId}">
 				
 				<div class="control-group">
 
-					<label id="sampleId-label" class="control-label"><g:message code="samplesInPlate.sampleId.label" default="Sample Id" /></label>
+					<label id="sampleId-label" class="control-label"><g:message code="sample.sampleId.label" default="Sample Id" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="sampleId-label"><g:fieldValue bean="${samplesInPlateInstance}" field="sampleId"/></span>
+						<span class="uneditable-input" aria-labelledby="sampleId-label"><g:fieldValue bean="${sampleInstance}" field="sampleId"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.well}">
+				<g:if test="${sampleInstance?.well}">
 				
 				<div class="control-group">
 
-					<label id="well-label" class="control-label"><g:message code="samplesInPlate.well.label" default="Well" /></label>
+					<label id="well-label" class="control-label"><g:message code="sample.well.label" default="Well" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="well-label"><g:fieldValue bean="${samplesInPlateInstance}" field="well"/></span>
+						<span class="uneditable-input" aria-labelledby="well-label"><g:fieldValue bean="${sampleInstance}" field="well"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.sampleVol}">
+				<g:if test="${sampleInstance?.sampleVol}">
 				
 				<div class="control-group">
 
-					<label id="sampleVol-label" class="control-label"><g:message code="samplesInPlate.sampleVol.label" default="Sample Vol" /></label>
+					<label id="sampleVol-label" class="control-label"><g:message code="sample.sampleVol.label" default="Sample Vol" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="sampleVol-label"><g:fieldValue bean="${samplesInPlateInstance}" field="sampleVol"/></span>
+						<span class="uneditable-input" aria-labelledby="sampleVol-label"><g:fieldValue bean="${sampleInstance}" field="sampleVol"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.dnaAmount}">
+				<g:if test="${sampleInstance?.dnaAmount}">
 				
 				<div class="control-group">
 
-					<label id="dnaAmount-label" class="control-label"><g:message code="samplesInPlate.dnaAmount.label" default="Dna Amount" /></label>
+					<label id="dnaAmount-label" class="control-label"><g:message code="sample.dnaAmount.label" default="Dna Amount" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="dnaAmount-label"><g:fieldValue bean="${samplesInPlateInstance}" field="dnaAmount"/></span>
+						<span class="uneditable-input" aria-labelledby="dnaAmount-label"><g:fieldValue bean="${sampleInstance}" field="dnaAmount"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.dnaSource}">
+				<g:if test="${sampleInstance?.dnaSource}">
 				
 				<div class="control-group">
 
-					<label id="dnaSource-label" class="control-label"><g:message code="samplesInPlate.dnaSource.label" default="Dna Source" /></label>
+					<label id="dnaSource-label" class="control-label"><g:message code="sample.dnaSource.label" default="Dna Source" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="dnaSource-label"><g:fieldValue bean="${samplesInPlateInstance}" field="dnaSource"/></span>
+						<span class="uneditable-input" aria-labelledby="dnaSource-label"><g:fieldValue bean="${sampleInstance}" field="dnaSource"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.dnaType}">
+				<g:if test="${sampleInstance?.dnaType}">
 				
 				<div class="control-group">
 
-					<label id="dnaType-label" class="control-label"><g:message code="samplesInPlate.dnaType.label" default="Dna Type" /></label>
+					<label id="dnaType-label" class="control-label"><g:message code="sample.dnaType.label" default="Dna Type" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="dnaType-label"><g:fieldValue bean="${samplesInPlateInstance}" field="dnaType"/></span>
+						<span class="uneditable-input" aria-labelledby="dnaType-label"><g:fieldValue bean="${sampleInstance}" field="dnaType"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.dnaExtract}">
+				<g:if test="${sampleInstance?.dnaExtract}">
 				
 				<div class="control-group">
 
-					<label id="dnaExtract-label" class="control-label"><g:message code="samplesInPlate.dnaExtract.label" default="Dna Extract" /></label>
+					<label id="dnaExtract-label" class="control-label"><g:message code="sample.dnaExtract.label" default="Dna Extract" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="dnaExtract-label"><g:fieldValue bean="${samplesInPlateInstance}" field="dnaExtract"/></span>
+						<span class="uneditable-input" aria-labelledby="dnaExtract-label"><g:fieldValue bean="${sampleInstance}" field="dnaExtract"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.comment}">
+				<g:if test="${sampleInstance?.comment}">
 				
 				<div class="control-group">
 
-					<label id="comment-label" class="control-label"><g:message code="samplesInPlate.comment.label" default="Comment" /></label>
+					<label id="comment-label" class="control-label"><g:message code="sample.comment.label" default="Comment" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="comment-label"><g:fieldValue bean="${samplesInPlateInstance}" field="comment"/></span>
+						<span class="uneditable-input" aria-labelledby="comment-label"><g:fieldValue bean="${sampleInstance}" field="comment"/></span>
 					
 					</div>
 					
 				</div>
 				</g:if>
 			
-				<g:if test="${samplesInPlateInstance?.plate}">
+				<g:if test="${sampleInstance?.plate}">
 				
 				<div class="control-group">
 
-					<label id="plate-label" class="control-label"><g:message code="samplesInPlate.plate.label" default="Plate" /></label>
+					<label id="plate-label" class="control-label"><g:message code="sample.plate.label" default="Plate" /></label>
 					
 					<div class="controls">
 					
-						<span class="uneditable-input" aria-labelledby="plate-label"><g:link controller="plate" action="show" id="${samplesInPlateInstance?.plate?.id}">${samplesInPlateInstance?.plate?.encodeAsHTML()}</g:link></span>
+						<span class="uneditable-input" aria-labelledby="plate-label"><g:link controller="plate" action="show" id="${sampleInstance?.plate?.id}">${sampleInstance?.plate?.encodeAsHTML()}</g:link></span>
 					
 					</div>
 					
@@ -163,8 +163,8 @@
 			<fieldset class="buttons">
 				<div class="control-groups">
 					<div class="controls">
-						<g:hiddenField name="id" value="${samplesInPlateInstance?.id}" />
-						<g:link class="btn" action="edit" id="${samplesInPlateInstance?.id}">
+						<g:hiddenField name="id" value="${sampleInstance?.id}" />
+						<g:link class="btn" action="edit" id="${sampleInstance?.id}">
 							<g:message code="default.button.edit.label" default="Edit" />
 						</g:link>
 						<g:actionSubmit class="btn" action="delete"

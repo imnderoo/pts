@@ -12,90 +12,90 @@ class SampleController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [samplesInPlateInstanceList: Sample.list(params), samplesInPlateInstanceTotal: Sample.count()]
+        [sampleInstanceList: Sample.list(params), sampleInstanceTotal: Sample.count()]
     }
 
     def create() {
-        [samplesInPlateInstance: new Sample(params)]
+        [sampleInstance: new Sample(params)]
     }
 
     def save() {
-        def samplesInPlateInstance = new Sample(params)
-        if (!samplesInPlateInstance.save(flush: true)) {
-            render(view: "create", model: [samplesInPlateInstance: samplesInPlateInstance])
+        def sampleInstance = new Sample(params)
+        if (!sampleInstance.save(flush: true)) {
+            render(view: "create", model: [sampleInstance: sampleInstance])
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), samplesInPlateInstance.id])
-        redirect(action: "show", id: samplesInPlateInstance.id)
+        flash.message = message(code: 'default.created.message', args: [message(code: 'sample.label', default: 'sample'), sampleInstance.id])
+        redirect(action: "show", id: sampleInstance.id)
     }
 
     def show(Long id) {
-        def samplesInPlateInstance = Sample.get(id)
-        if (!samplesInPlateInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+        def sampleInstance = Sample.get(id)
+        if (!sampleInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "list")
             return
         }
 
-        [samplesInPlateInstance: samplesInPlateInstance]
+        [sampleInstance: sampleInstance]
     }
 
     def edit(Long id) {
-        def samplesInPlateInstance = Sample.get(id)
-        if (!samplesInPlateInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+        def sampleInstance = Sample.get(id)
+        if (!sampleInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "list")
             return
         }
 
-        [samplesInPlateInstance: samplesInPlateInstance]
+        [sampleInstance: sampleInstance]
     }
 
     def update(Long id, Long version) {
-        def samplesInPlateInstance = Sample.get(id)
-        if (!samplesInPlateInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+        def sampleInstance = Sample.get(id)
+        if (!sampleInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "list")
             return
         }
 
         if (version != null) {
-            if (samplesInPlateInstance.version > version) {
-                samplesInPlateInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'samplesInPlate.label', default: 'SamplesInPlate')] as Object[],
-                          "Another user has updated this SamplesInPlate while you were editing")
-                render(view: "edit", model: [samplesInPlateInstance: samplesInPlateInstance])
+            if (sampleInstance.version > version) {
+                sampleInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'sample.label', default: 'sample')] as Object[],
+                          "Another user has updated this sample while you were editing")
+                render(view: "edit", model: [sampleInstance: sampleInstance])
                 return
             }
         }
 
-        samplesInPlateInstance.properties = params
+        sampleInstance.properties = params
 
-        if (!samplesInPlateInstance.save(flush: true)) {
-            render(view: "edit", model: [samplesInPlateInstance: samplesInPlateInstance])
+        if (!sampleInstance.save(flush: true)) {
+            render(view: "edit", model: [sampleInstance: sampleInstance])
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), samplesInPlateInstance.id])
-        redirect(action: "show", id: samplesInPlateInstance.id)
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'sample.label', default: 'sample'), sampleInstance.id])
+        redirect(action: "show", id: sampleInstance.id)
     }
 
     def delete(Long id) {
-        def samplesInPlateInstance = Sample.get(id)
-        if (!samplesInPlateInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+        def sampleInstance = Sample.get(id)
+        if (!sampleInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "list")
             return
         }
 
         try {
-            samplesInPlateInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+            sampleInstance.delete(flush: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'samplesInPlate.label', default: 'SamplesInPlate'), id])
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'sample.label', default: 'sample'), id])
             redirect(action: "show", id: id)
         }
     }
