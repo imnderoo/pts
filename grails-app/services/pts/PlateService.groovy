@@ -4,6 +4,9 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.springframework.transaction.annotation.Transactional
 
 
+
+
+
 class PlateService {
 
 	def servletContext
@@ -18,7 +21,9 @@ class PlateService {
 		def motherq4plateList = Plate.findAllByQ4Plate(plateInstance)
 
 		def motherPlateList = motherq1plateList + motherq2plateList + motherq3plateList + motherq4plateList
-		def sortedMotherPlateList = motherPlateList.sort{ it.intPlateId }
+		def sortedMotherPlateList = motherPlateList.sort{
+			it.intPlateId
+		}
 
 		return sortedMotherPlateList
 	}
@@ -52,6 +57,85 @@ class PlateService {
 		file << (plateInstance.getIntPlateId() + "," + plateInstance.getExtPlateId() + "\n")
 
 		return
+	}
+
+	def exportSample384CSV(Plate plateInstance, String format) {
+		def rootPath = ServletContextHolder.servletContext.getRealPath("/")
+		def filePath = rootPath + "files/csvTemplate.csv"
+
+		def file = new File (filePath)
+
+		file.newWriter()
+
+		def q1Plate = plateInstance.getQ1Plate()
+		def q2Plate = plateInstance.getQ2Plate()
+		def q3Plate = plateInstance.getQ3Plate()
+		def q4Plate = plateInstance.getQ4Plate()
+
+		def sampleList = []
+
+		for (i in 1..96) {
+			def originalRow = (int) Math.floor((i-1) / 12)
+
+			def q1WellPos = 2 * i - 1 + (24*(originalRow))
+			def q2WellPos = 2 * i + (24*(originalRow))
+			def q3WellPos = 24 + q1WellPos
+			def q4WellPos = 24 + q2WellPos
+
+			def q1Sample = Sample.findByWellNumberAndPlate(i, q1Plate)
+			def q2Sample = Sample.findByWellNumberAndPlate(i, q2Plate)
+			def q3Sample = Sample.findByWellNumberAndPlate(i, q3Plate)
+			def q4Sample = Sample.findByWellNumberAndPlate(i, q4Plate)
+
+			// Minus one because arrays start counting at 0
+			sampleList[q1WellPos-1] = q1Plate.getIntPlateId() + ":" + q1Sample.getSampleId()
+			sampleList[q2WellPos-1] = q2Plate.getIntPlateId() + ":" + q2Sample.getSampleId()
+			sampleList[q3WellPos-1] = q3Plate.getIntPlateId() + ":" + q3Sample.getSampleId()
+			sampleList[q4WellPos-1] = q4Plate.getIntPlateId() + ":" + q4Sample.getSampleId()
+
+		}
+
+		def index = 1
+		char wellPosAlpha = 'A'
+		def wellPosNum
+		def well
+
+		// Print header when necessary
+		if (format == "list") {
+			file << ("Well,WellNumber,SampleID\n")
+		}
+
+		for (sample in sampleList) {
+
+			if (format == "list") {
+				wellPosNum = index % 24
+
+				if (wellPosNum == 0) {
+					wellPosNum = 24
+				}
+
+				well = Character.toString(wellPosAlpha) + wellPosNum
+
+				if (wellPosNum == 24) {
+					wellPosAlpha = (char) (1 + wellPosAlpha)
+				}
+
+				file << (well + "," + index + "," + sample + "\n")
+			}
+			else if (format == "grid") {
+
+				if(index % 24 == 0) {
+					file << sample + "\n"
+				}
+				else {
+					file << sample + ","
+				}
+			}
+
+			index ++
+		}
+
+		return file
 	}
 
 	def exportSampleSequenome(Plate plateInstance) {
