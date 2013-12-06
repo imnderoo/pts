@@ -481,6 +481,32 @@ class PlateController {
 		}
 	}
 
+	def exportSample384List(Long id)
+	{
+		def plateInstance = Plate.get(id)
+
+		if (params.format == "csvList")
+		{
+			def csvList = plateService.exportSample384CSV(plateInstance, "list")
+
+			//CSV
+			response.setHeader "Content-disposition", "attachment; filename=" + plateInstance.getIntPlateId() + "_list.csv"
+			response.contentType = 'text/csv'
+			response.outputStream << csvList.text
+			response.outputStream.flush()
+		}
+		else if (params.format == "csvGrid")
+		{
+			def csvGrid = plateService.exportSample384CSV(plateInstance, "grid")
+
+			//CSV
+			response.setHeader "Content-disposition", "attachment; filename=" + plateInstance.getIntPlateId() + "_grid.csv"
+			response.contentType = 'text/csv'
+			response.outputStream << csvGrid.text
+			response.outputStream.flush()
+		}
+	}
+
 	def exportPlateList()
 	{
 		println params
