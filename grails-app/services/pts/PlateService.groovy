@@ -165,17 +165,20 @@ class PlateService {
 
 		def sampleList = plateInstance.getSamples()
 
+		// Print header when necessary
 		if (format == "list") {
-			file << ("Well,SampleID\n")
-
-			for (sample in sampleList) {
-				file << (sample.getWell() + "," + sample.getSampleId() + "\n")
-			}
+			file << ("Well,WellNumber,SampleID\n")
 		}
 
-		else if (format == "grid") {
+		// Print sample list
+		for (sample in sampleList) {
 
-			for (sample in sampleList) {
+			if (format == "list"){
+				file << (sample.getWell() + "," + sample.getWellNumber() + "," + sample.getSampleId() + "\n")
+			}
+
+			else if (format == "grid") {
+
 				if(sample.getWellNumber() % 12 == 0) {
 					file << sample.getSampleId() + "\n"
 				}
@@ -184,6 +187,7 @@ class PlateService {
 				}
 			}
 		}
+
 		return file
 	}
 
