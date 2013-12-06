@@ -179,9 +179,11 @@
 							</a>
 							
 							<ul class="dropdown-menu">
+								<li class="nav-header">Samples List</li>						
 								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'sequenome']">To Sequenome</g:link></li>
-								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvGrid']">To CSV (Grid)</g:link></li>
-								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvList']">To CSV (List)</g:link></li>
+								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvList']">To CSV</g:link></li>
+								<li class="nav-header">Samples Grid</li>						
+								<li><g:link action="exportSampleList" id="${plateInstance.id}" params="[format:'csvGrid']">To CSV</g:link></li>
 							</ul>
 						</div>
 						
@@ -197,7 +199,23 @@
 		<g:if test="${plateInstance?.plateType?.name == "Plate384"}">
 			<h3>
 				<g:message code="plate.q1Plate.label" default="Children Plate" />
+				
+							<div class="btn-group">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="dropdown-menu">
+								Export <span class="caret"></span>
+							</a>
+							
+							<ul class="dropdown-menu">
+								<li class="nav-header">Samples List</li>
+								<li><g:link action="exportSample384List" id="${plateInstance.id}" params="[format:'csvList']">To CSV</g:link></li>
+								<li class="nav-header">Samples Grid</li>
+								<li><g:link action="exportSample384List" id="${plateInstance.id}" params="[format:'csvGrid']">To CSV</g:link></li>
+								
+							</ul>
+						</div>
+						
 			</h3>
+
 			<div class="row-fluid">
 				<div class="span5">
 					<table class="table table-bordered">
