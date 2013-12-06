@@ -6,7 +6,6 @@ import org.springframework.dao.DataIntegrityViolationException
 
 
 
-
 class PlateController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -41,10 +40,13 @@ class PlateController {
 
 		def plateType384 = PlateType.findByName('Plate384')
 		def plate384List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+		def plate384ChildList = Plate.findAllByQ1PlateInListOrQ2PlateInListOrQ3PlateInListOrQ4PlateInList(plate96List, plate96List, plate96List, plate96List, params)
 		def plate384Total =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
 
+		def plate384FinalList = (plate384List + plate384ChildList).unique()
+		
 
-		[plate96List: plate96List, plate96Total: plate96Total, plate384List: plate384List, plate384Total: plate384Total]
+		[plate96List: plate96List, plate96Total: plate96Total, plate384List: plate384FinalList, plate384Total: plate384Total]
 	}
 
 	def render_listPlate96(Integer max) {
@@ -144,19 +146,19 @@ class PlateController {
 			flash.message = "Cannot save " + intPlateId.toUppserCase() + ". It already exists in database"
 			redirect(action: "create96")
 		}
-		
+
 		params.intPlateId = intPlateId.toUpperCase()
 		params.extPlateId = extPlateId
 		params.createdDate = createdDate
-		
+
 		plateInstance = new Plate(params)
-		
+
 		plateInstance.setPlateType(PlateType.findByName("Plate96"))
 		plateInstance.setProject(projectInstance)
 		plateInstance.setCreatedBy(investigatorInstance.getFirstName())
-		
+
 		//plateInstance.setExtPlateId(extPlateId)
-		//plateInstance.setCreatedDate(createdDate)		
+		//plateInstance.setCreatedDate(createdDate)
 		//plateInstance.setEnzymeUsed(params.enzymeUsed)
 		//plateInstance.setPcrCondition(params.pcrCondition)
 		//plateInstance.setReactionSize(params.reactionSize)
