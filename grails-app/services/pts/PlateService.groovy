@@ -206,7 +206,7 @@ class PlateService {
 		//		response.outputStream.flush()
 	}
 
-	def exportPlateCSV(List plate384List, List plate96List) {
+	def exportPlateCSV(List plate384List, List plate96List, String intPlateID, String extPlateID, String project) {
 		def rootPath = ServletContextHolder.servletContext.getRealPath("/")
 		def filePath = rootPath + "files/csvTemplate.csv"
 
@@ -229,17 +229,17 @@ class PlateService {
 			for (plate in plate384List) {
 				//def plate = Plate.findByIntPlateId(plateName)
 				file << (plate.getIntPlateId() + "," +
-						plate.getExtPlateId() + "," +
-						plate.getReactionSize() + "," +
-						plate.getEnzymeUsed() + "," +
-						plate.getPcrCondition() + "," +
-						plate.getChipId() + "," +
-						plate.getCreatedDate().format("yyyy-MM-dd") + "," +
-						plate.getProject() + "," +
-						plate.getQ1Plate().getIntPlateId() + "," +
-						plate.getQ2Plate().getIntPlateId() + "," +
-						plate.getQ3Plate().getIntPlateId() + "," +
-						plate.getQ4Plate().getIntPlateId() + "," + "\n")
+				plate.getExtPlateId() + "," +
+				plate.getReactionSize() + "," +
+				plate.getEnzymeUsed() + "," +
+				plate.getPcrCondition() + "," +
+				plate.getChipId() + "," +
+				plate.getCreatedDate().format("yyyy-MM-dd") + "," +
+				plate.getProject() + "," +
+				plate.getQ1Plate().getIntPlateId() + "," +
+				plate.getQ2Plate().getIntPlateId() + "," +
+				plate.getQ3Plate().getIntPlateId() + "," +
+				plate.getQ4Plate().getIntPlateId() + "," + "\n")
 			}
 		}
 
@@ -254,13 +254,13 @@ class PlateService {
 			for (plate in plate96List) {
 				//def plate = Plate.findByIntPlateId(plateName)
 				file << (plate.getIntPlateId() + "," +
-						plate.getExtPlateId() + "," +
-						plate.getReactionSize() + "," +
-						plate.getEnzymeUsed() + "," +
-						plate.getPcrCondition() + "," +
-						plate.getChipId() + "," +
-						plate.getCreatedDate().format("yyyy-MM-dd") + "," +
-						plate.getProject() + "," + "\n")
+				plate.getExtPlateId() + "," +
+				plate.getReactionSize() + "," +
+				plate.getEnzymeUsed() + "," +
+				plate.getPcrCondition() + "," +
+				plate.getChipId() + "," +
+				plate.getCreatedDate().format("yyyy-MM-dd") + "," +
+				plate.getProject() + "," + "\n")
 			}
 		}
 		return file
