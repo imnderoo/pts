@@ -126,6 +126,11 @@ class PlateService {
 
 		file.newWriter()
 
+		file << "Search Criteria\n"
+		file << "Int_Plate_ID,Ext_Plate_ID,Project\n"
+		file << intPlateID + "," + extPlateID + "," + project + "\n"
+		file << "\n"
+		
 		file << "384-well Plates\n"
 
 		if(plate384List.isEmpty()) {
