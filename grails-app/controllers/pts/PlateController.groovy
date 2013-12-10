@@ -106,6 +106,8 @@ class PlateController {
 	}
 
 	def create96() {
+		flash.message = ""
+		
 		[plateInstance: new Plate(params)]
 	}
 
@@ -261,14 +263,15 @@ class PlateController {
 
 		plateService.printLabel(plateInstance)
 
-		redirect(view: "show", model: [plateInstance: plateInstance])
-		return
+		flash.message = "Plate " + plateInstance.getIntPlateId() + " created."
 
-		//        flash.message = message(code: 'default.created.message', args: [message(code: 'plate.label', default: 'Plate'), plateInstance.id])
-		//        redirect(action: "show", id: plateInstance.id)
+			redirect(action: "show", id: plateInstance.id)
 	}
 
 	def create384() {
+		
+		flash.message = ""
+		
 		[plateInstance: new Plate(params)]
 	}
 
@@ -304,8 +307,8 @@ class PlateController {
 
 		plateService.printLabel(plateInstance)
 
-		render(view: "show", model: [plateInstance: plateInstance])
-		return
+		redirect(action: "show", id: plateInstance.id)
+	
 	}
 
 	def show(Long id) {
