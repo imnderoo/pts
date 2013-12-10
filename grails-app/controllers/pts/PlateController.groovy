@@ -144,18 +144,8 @@ class PlateController {
 		def projectInstance = Project.findOrSaveByInvestigatorAndName(investigatorInstance, projectName)
 
 		// Read PlatePrefix from form and find the next highest PlateID
-		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
 
-		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
-		def plateHighestId = 0
-
-		if	(!plateSearchResult.isEmpty())
-		{
-			plateSearchResult = plateSearchResult.first().getIntPlateId()
-			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
-		}
-
-		def intPlateId = intPlatePrefix + String.format("%04d", plateHighestId + 1)
+		def intPlateId = plateService.getNextHighestPlateId(params.intPlatePrefix, plateTypeInstance)
 
 		// Read Plate Info from manifest
 
@@ -175,15 +165,15 @@ class PlateController {
 			createdDate = Date.parse("dd-MM-yyyy", createdDateString)
 		}
 
-		def plateInstance = Plate.findByIntPlateId(intPlateId.toUpperCase())
+		def plateInstance = Plate.findByIntPlateId(intPlateId)
 
 		if(plateInstance)
 		{
-			flash.message = "Cannot save " + intPlateId.toUppserCase() + ". It already exists in database"
+			flash.message = "Cannot save " + intPlateId + ". It already exists in database"
 			redirect(action: "create96")
 		}
 
-		params.intPlateId = intPlateId.toUpperCase()
+		params.intPlateId = intPlateId
 		params.extPlateId = extPlateId
 		params.createdDate = createdDate
 
@@ -284,17 +274,17 @@ class PlateController {
 
 	def save384() {
 
+		
 		// Read PlatePrefix from form and find the next highest PlateID
-		def intPlatePrefix = params.intPlatePrefix.toString().toUpperCase()
-		def highestPlateNum = plateService.getHighestPlateNumber(intPlatePrefix)
+		def plateType = PlateType.findByName("Plate384")
 
-		params.intPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
-		params.extPlateId = intPlatePrefix + String.format("%04d", highestPlateNum + 1)
+		params.intPlateId = plateService.getNextHighestPlateId(params.intPlatePrefix, plateType)
+		params.extPlateId = "NA"
 		params.createdDate = new Date()
 
 		def plateInstance = new Plate(params)
 
-		plateInstance.setPlateType(PlateType.findByName("Plate384"))
+		plateInstance.setPlateType(plateType)
 
 		plateInstance.setQ1Plate(Plate.findByIntPlateId(params.q1Plate.name))
 		plateInstance.setQ2Plate(Plate.findByIntPlateId(params.q2Plate.name))
@@ -541,44 +531,5 @@ class PlateController {
 			response.outputStream << csvGrid.text
 			response.outputStream.flush()
 		}
-	}
-
-	def exportPlateList()
-	{
-		def intPlateIdFilter = params.intPlateId ?: ""
-		def extPlateIdFilter = params.extPlateId ?: ""
-		def projectFilter
-		def intPlateText = intPlateIdFilter
-		def extPlateText = extPlateIdFilter
-		def projectText = ""
-
-
-		intPlateIdFilter = "%" + intPlateIdFilter + "%"
-		extPlateIdFilter = "%" + extPlateIdFilter + "%"
-
-
-		if(params.int('projectId') > 0) {
-			projectFilter = Project.getAll([params.projectId])
-			projectText = projectFilter[0].getName()
-		}
-		else {
-			projectFilter = Project.getAll()
-			projectText = "All Projects"
-		}
-
-		def plateType96 = PlateType.findByName('Plate96')
-		def plate96List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter)
-
-		def plateType384 = PlateType.findByName('Plate384')
-		def plate384List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter)
-
-		//def plateList = plateService.exportPlateCSV(params.list('plate384List'), params.list('plate96List'))
-		def plateList = plateService.exportPlateCSV(plate384List, plate96List, intPlateText, extPlateText, projectText)
-
-		//CSV
-		response.setHeader "Content-disposition", "attachment; filename=" + "plate_search_result.csv"
-		response.contentType = 'text/csv'
-		response.outputStream << plateList.text
-		response.outputStream.flush()
 	}
 }
