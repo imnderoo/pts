@@ -4,8 +4,6 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.dao.DataIntegrityViolationException
 
-
-
 class PlateController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -75,6 +73,36 @@ class PlateController {
 		render(template:"listPlate384", model:[plate384List: plate384List, plate384ListTotal: plate384ListTotal])
 	}
 
+	def exportPlateList() {
+		def plateType96 = PlateType.findByName('Plate96')
+		def plateType384 = PlateType.findByName('Plate384')
+
+		def plate96Result = plateService.getPlateList(plateType96, flash.intPlateId, flash.extPlateId, flash.projectId, params)
+		def plate384Result = plateService.getPlateList(plateType384, flash.intPlateId, flash.extPlateId, flash.projectId, params)
+
+		def plate96List = plate96Result[0]
+		def plate384List = plate384Result[0]
+
+		def projectText
+
+		if (Integer.valueOf(flash.projectId) > 0) {
+			projectText = Project.get(flash.projectId).getName()
+		}
+		else {
+			projectText = "All Projects"
+		}
+
+		def plateList = plateService.exportPlateCSV(plate384List, plate96List, flash.intPlateId, flash.extPlateId, projectText)
+
+		flash.intPlateId = flash.intPlateId
+		flash.extPlateId = flash.extPlateId
+		flash.projectId = flash.projectId
+
+		//CSV
+		response.setHeader "Content-disposition", "attachment; filename=" + "plate_search_result.csv"
+		response.contentType = 'text/csv'
+		response.outputStream << plateList.text
+		response.outputStream.flush()
 	}
 
 	def create96() {
