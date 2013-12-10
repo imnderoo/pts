@@ -17,36 +17,32 @@ class PlateController {
 	}
 
 	def list(Integer max) {
+		
+		flash.message = ""
+		
 		params.max = Math.min(max ?: 5, 100)
-
-		def intPlateIdFilter = params.intPlateId ?: ""
-		def extPlateIdFilter = params.extPlateId ?: ""
-
-		intPlateIdFilter = "%" + intPlateIdFilter + "%"
-		extPlateIdFilter = "%" + extPlateIdFilter + "%"
-
-		def projectFilter
-
-		if(params.int('projectId') > 0) {
-			projectFilter = Project.getAll([params.projectId])
-		}
-		else {
-			projectFilter = Project.getAll()
-		}
+		params.intPlateId = params.intPlateId ?: ""
+		params.extPlateId = params.extPlateId ?: ""
+		params.projectId = params.projectId ?: "-1"
 
 		def plateType96 = PlateType.findByName('Plate96')
-		def plate96List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
-		def plate96Total =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter,  params)
-
 		def plateType384 = PlateType.findByName('Plate384')
-		def plate384List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
-		def plate384ChildList = Plate.findAllByQ1PlateInListOrQ2PlateInListOrQ3PlateInListOrQ4PlateInList(plate96List, plate96List, plate96List, plate96List, params)
-		def plate384Total =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType384, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
 
-		def plate384FinalList = (plate384List + plate384ChildList).unique()
-		
+		intPlateIdFilter = "%" + intPlateIdFilter + "%"
+		def plate96Result = plateService.getPlateList(plateType96, params.intPlateId, params.extPlateId, params.projectId, params)
+		def plate384Result = plateService.getPlateList(plateType384, params.intPlateId, params.extPlateId, params.projectId, params)
 
-		[plate96List: plate96List, plate96Total: plate96Total, plate384List: plate384FinalList, plate384Total: plate384Total]
+		def plate96List = plate96Result[0]
+		def plate96ListTotal = plate96Result[1]
+
+		def plate384List = plate384Result[0]
+		def plate384ListTotal = plate384Result[1]
+
+		flash.intPlateId = params.intPlateId
+		flash.extPlateId = params.extPlateId
+		flash.projectId = params.projectId
+
+		[plate96List: plate96List, plate96ListTotal: plate96ListTotal, plate384List: plate384List, plate384ListTotal: plate384ListTotal]
 	}
 
 	def render_listPlate96(Integer max) {
