@@ -11,11 +11,15 @@ class InvestigatorController {
     }
 
     def list(Integer max) {
+		flash.message = ""
+		
         params.max = Math.min(max ?: 10, 100)
         [investigatorInstanceList: Investigator.list(params), investigatorInstanceTotal: Investigator.count()]
     }
 
     def create() {
+		flash.message = ""
+		
         [investigatorInstance: new Investigator(params)]
     }
 
@@ -32,6 +36,8 @@ class InvestigatorController {
     }
 
     def show(Long id) {
+		flash.message = ""
+		
         def investigatorInstance = Investigator.get(id)
         if (!investigatorInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
@@ -43,6 +49,8 @@ class InvestigatorController {
     }
 
     def edit(Long id) {
+		flash.message = ""
+		
         def investigatorInstance = Investigator.get(id)
         if (!investigatorInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'investigator.label', default: 'Investigator'), id])
