@@ -28,7 +28,6 @@ class PlateController {
 		def plateType96 = PlateType.findByName('Plate96')
 		def plateType384 = PlateType.findByName('Plate384')
 
-		intPlateIdFilter = "%" + intPlateIdFilter + "%"
 		def plate96Result = plateService.getPlateList(plateType96, params.intPlateId, params.extPlateId, params.projectId, params)
 		def plate384Result = plateService.getPlateList(plateType384, params.intPlateId, params.extPlateId, params.projectId, params)
 
@@ -48,11 +47,17 @@ class PlateController {
 	def render_listPlate96(Integer max) {
 		params.max = Math.min(max ?: 5, 100)
 
-		def plateType96= PlateType.findByName('Plate96')
-		def plate96List = Plate.findAllByPlateType(plateType96, params)
-		def plate96Total =  Plate.countByPlateType(plateType96, params)
+		def plateType96 = PlateType.findByName('Plate96')
 
-		render(template:"listPlate96", model:[plate96List: plate96List, plate96Total: plate96Total])
+		def plate96Result = plateService.getPlateList(plateType96, flash.intPlateId, flash.extPlateId, flash.projectId, params)
+		def plate96List = plate96Result[0]
+		def plate96ListTotal = plate96Result[1]
+
+		flash.intPlateId = flash.intPlateId
+		flash.extPlateId = flash.extPlateId
+		flash.projectId = flash.projectId
+
+		render(template:"listPlate96", model:[plate96List: plate96List, plate96ListTotal: plate96ListTotal])
 	}
 
 	def render_listPlate384(Integer max) {
