@@ -8,7 +8,7 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField class="input-small" name="intPlatePrefix" maxlength="8" required="" />
+					<g:textField class="input-small" name="intPlatePrefix" maxlength="8" required="" pattern="[a-zA-Z]{2,4}"/>
 				</div>
 			</div>
 
@@ -32,7 +32,7 @@
 						<g:message code="plate.createdDate.label" default="Created Date" />
 					</label>
 					<div class="controls">
-						<g:textField class="input-small datepicker" name="createdDate" value="${plateInstance?.enzymeUsed}"
+						<g:textField class="input-small datepicker" name="createdDate" value="${new Date().format('dd-MM-yyyy')}"
 							placeholder="DD-MM-YYYY" />
 					</div>
 				</div>
