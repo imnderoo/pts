@@ -64,10 +64,17 @@ class PlateController {
 		params.max = Math.min(max ?: 5, 100)
 
 		def plateType384 = PlateType.findByName('Plate384')
-		def plate384List = Plate.findAllByPlateType(plateType384, params)
-		def plate384Total =  Plate.countByPlateType(plateType384, params)
 
-		render(template:"listPlate384", model:[plate384List: plate384List, plate384Total: plate384Total])
+		def plate384Result = plateService.getPlateList(plateType384, flash.intPlateId, flash.extPlateId, flash.projectId, params)
+		def plate384List = plate384Result[0]
+		def plate384ListTotal = plate384Result[1]
+
+		flash.intPlateId = flash.intPlateId
+		flash.extPlateId = flash.extPlateId
+		flash.projectId = flash.projectId
+		render(template:"listPlate384", model:[plate384List: plate384List, plate384ListTotal: plate384ListTotal])
+	}
+
 	}
 
 	def create96() {
