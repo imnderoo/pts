@@ -1,10 +1,8 @@
 package pts
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 import org.springframework.transaction.annotation.Transactional
-
-
-
 
 
 class PlateService {
@@ -64,16 +62,21 @@ class PlateService {
 	}
 
 	@Transactional(readOnly = true)
-	def getHighestPlateNumber(String intPlatePrefix){
-		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
-		def plateHighestId = 0
+	def getNextHighestPlateId(String intPlatePrefix, PlateType plateType){
+		
+		intPlatePrefix = intPlatePrefix.toUpperCase()
+		
+		def plateSearchResult = Plate.findAllByPlateTypeAndIntPlateIdIlike(plateType, intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
+		def highestPlateId = 0
 
 		if	(!plateSearchResult.isEmpty()) {
 			plateSearchResult = plateSearchResult.first().getIntPlateId()
-			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
+			highestPlateId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
 		}
-
-		return plateHighestId
+		
+		def nextHighestPlateId = intPlatePrefix + String.format("%04d", highestPlateId + 1)
+		
+		return nextHighestPlateId
 	}
 
 	def printLabel(Plate plateInstance) {
@@ -253,7 +256,7 @@ class PlateService {
 		file << "Int_Plate_ID,Ext_Plate_ID,Project\n"
 		file << intPlateID + "," + extPlateID + "," + project + "\n"
 		file << "\n"
-		
+
 		file << "384-well Plates\n"
 
 		if(plate384List.isEmpty()) {
