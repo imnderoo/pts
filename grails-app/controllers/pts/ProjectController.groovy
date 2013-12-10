@@ -11,11 +11,15 @@ class ProjectController {
     }
 
     def list(Integer max) {
+		flash.message = ""
+		
         params.max = Math.min(max ?: 10, 100)
         [projectInstanceList: Project.list(params), projectInstanceTotal: Project.count()]
     }
 
     def create() {
+		flash.message = ""
+		
         [projectInstance: new Project(params)]
     }
 
@@ -31,6 +35,8 @@ class ProjectController {
     }
 
     def show(Long id) {
+		flash.message = ""
+		
         def projectInstance = Project.get(id)
         if (!projectInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), id])

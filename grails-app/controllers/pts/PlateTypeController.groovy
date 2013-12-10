@@ -11,11 +11,15 @@ class PlateTypeController {
     }
 
     def list(Integer max) {
+		flash.message = ""
+		
         params.max = Math.min(max ?: 10, 100)
         [plateTypeInstanceList: PlateType.list(params), plateTypeInstanceTotal: PlateType.count()]
     }
 
     def create() {
+		flash.message = ""
+		
         [plateTypeInstance: new PlateType(params)]
     }
 
