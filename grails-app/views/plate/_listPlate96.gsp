@@ -41,7 +41,7 @@
 	<div class="pagination pagination-small">
 		<ul>
 			<li>
-				<util:remotePaginate action="render_listPlate96" update="listPlate96" next="&gt;" prev="&lt;" total="${plate96Total}" />
+				<util:remotePaginate action="render_listPlate96" update="listPlate96" next="&gt;" prev="&lt;" total="${plate96ListTotal}" />
 			</li>
 		</ul>
 	</div>

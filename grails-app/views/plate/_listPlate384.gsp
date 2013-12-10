@@ -5,8 +5,6 @@
 			<tr class="info">
 				<g:sortableColumn property="intPlateId" title="${message(code: 'plate.intPlateId.label', default: 'Internal ID')}" />
 
-				<g:sortableColumn property="extPlateId" title="${message(code: 'plate.extPlateId.label', default: 'External ID')}" />
-
 				<g:sortableColumn property="createdDate" title="${message(code: 'plate.createdDate.label', default: 'Created Date')}" />
 
 				<g:sortableColumn property="project" title="${message(code: 'plate.project.label', default: 'Project')}" />
@@ -22,10 +20,6 @@
 						<g:link action="show" id="${plateInstance.id}">
 							${fieldValue(bean: plateInstance, field: "intPlateId")}
 						</g:link>
-					</td>
-
-					<td>
-						${fieldValue(bean: plateInstance, field: "extPlateId")}
 					</td>
 
 					<td>
@@ -49,7 +43,7 @@
 	<div class="pagination pagination-small">
 		<ul>
 			<li>
-				<util:remotePaginate action="render_listPlate384" update="listPlate384"  next="&gt;" prev="&lt;" total="${plate384Total}"/>
+				<util:remotePaginate action="render_listPlate384" update="listPlate384"  next="&gt;" prev="&lt;" total="${plate384ListTotal}"/>
 			</li>
 		</ul>
 	</div>
