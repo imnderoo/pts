@@ -12,6 +12,41 @@ class PlateService {
 	def servletContext
 	def grailsApplication
 
+	def getPlateList(PlateType plateType, String intPlateId, String extPlateId, String projectId, GrailsParameterMap params) {
+		
+		def intPlateIdFilter = "%" + intPlateId + "%"
+		def extPlateIdFilter = "%" + extPlateId + "%"
+
+		def projectFilter
+
+		if(Integer.valueOf(projectId) > 0) {
+			projectFilter = Project.getAll([projectId])
+		}
+		else {
+			projectFilter = Project.getAll()
+		}
+
+		def plateList = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+		def plateListTotal =  Plate.countByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType, intPlateIdFilter, extPlateIdFilter, projectFilter)
+
+		// Extra code to check for childs that match criteria if no plate384 list is found. 
+		// Priority is given to matching the external Id
+		if (plateType.getName() == 'Plate384' && plateListTotal == 0) {
+			def plateType96 = PlateType.findByName('Plate96')
+			def plate96List = Plate.findAllByPlateTypeAndIntPlateIdIlikeAndExtPlateIdIlikeAndProjectInList(plateType96, intPlateIdFilter, extPlateIdFilter, projectFilter, params)
+
+			// If children plate matches, display the plate-384s
+			if(plate96List)
+			{
+				plateList = Plate.findAllByQ1PlateInListOrQ2PlateInListOrQ3PlateInListOrQ4PlateInList(plate96List, plate96List, plate96List, plate96List)
+				plateListTotal = Plate.countByQ1PlateInListOrQ2PlateInListOrQ3PlateInListOrQ4PlateInList(plate96List, plate96List, plate96List, plate96List)
+			}
+		}		
+		
+		return [plateList, plateListTotal]
+	}
+
+
 	@Transactional(readOnly = true)
 	def getMotherPlates(Plate plateInstance) {
 
