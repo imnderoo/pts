@@ -26,26 +26,25 @@
 						<input type="text" class="span2" name="intPlateId" placeholder="Int Plate ID" value="${params.intPlateId}">
 						<input type="text" class="span2" name="extPlateId" placeholder="Ext Plate ID" value="${params.extPlateId}">
 						<g:select class="input-medium many-to-one" id="project" name="projectId" from="${pts.Project.list()}" optionKey="id"
-							value="${params.projectId}" noSelection="${[0:'All Projects']}"/>
-							
+							value="${params.projectId}" noSelection="${[0:'All Projects']}" />
+
 						<g:actionSubmit action="list" value="Search" class="btn" />
-						
+
 						<div class="btn-group pull-right">
-							<a class="btn dropdown-toggle pull-right" data-toggle="dropdown" href="dropdown-menu">
-								Export <span class="caret"></span>
+							<a class="btn dropdown-toggle pull-right" data-toggle="dropdown" href="dropdown-menu"> Export <span class="caret"></span>
 							</a>
-							
+
 							<ul class="dropdown-menu">
-								<li class="nav-header">Plates List</li>						
-								<li><g:actionSubmit action="exportPlateList" class="submit-dropdown" value="To CSV"/></li>
+								<li class="nav-header">Plates List</li>
+								<li>
+									<g:actionSubmit action="exportPlateList" class="submit-dropdown" value="To CSV" />
+								</li>
 							</ul>
 						</div>
-						
-<%--						<g:actionSubmit action="exportPlateList" class="btn pull-right" value="Export List"/>--%>
-						
+
 					</g:form>
-					
-									
+
+
 				</div>
 			</div>
 		</div>
