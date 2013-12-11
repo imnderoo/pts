@@ -16,13 +16,13 @@ $(function() {
 
 	$(".searchPlate96").autocomplete({
 		source : searchPlate96Path,
-		minLength : 4,
+		minLength : 3	,
 		delay : 50,
 		autoFocus : true,
 		
-		open : function(event, ui) {
+		response : function(event, ui) {
 			var field_id=$(this).attr('id').replace('.name', '\\.id');
-			$('#' + field_id).val('-1');
+			$('#' + field_id).val('');
 		},
 
 		select : function(event, ui) {
