@@ -40,10 +40,7 @@
 						<g:message code="project.investigator.label" default="Investigator" />
 					</label>
 					<div class="controls">
-						<span class="uneditable-input" aria-labelledby="investigator-label"><g:link controller="investigator"
-								action="show" id="${projectInstance?.investigator?.id}">
-								${projectInstance?.investigator?.encodeAsHTML()}
-							</g:link></span>
+						<span class="uneditable-input"><g:link controller="investigator" action="show" id="${projectInstance?.investigator?.id}">${projectInstance?.investigator}</g:link></span>
 					</div>
 
 				</div>
@@ -72,6 +69,9 @@
 							<g:link controller="plate" action="show" id="${p.id}">
 								${p?.encodeAsHTML()}
 							</g:link>
+						</td>
+						<td>
+							${p?.plateType}
 						</td>
 					</tr>
 				</g:each>
