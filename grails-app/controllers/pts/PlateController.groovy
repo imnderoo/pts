@@ -410,16 +410,8 @@ class PlateController {
 		def intPlateIdRegex = oldPlateInstance.getIntPlateId() =~ /\D+/
 		def intPlatePrefix = intPlateIdRegex[0].toString().toUpperCase()
 
-		def plateSearchResult = Plate.findAllByIntPlateIdIlike("%" + intPlatePrefix + "%", [max: 1, sort: "intPlateId", order: "desc"])
-		def plateHighestId = 0
-
-		if	(!plateSearchResult.isEmpty())
-		{
-			plateSearchResult = plateSearchResult.first().getIntPlateId()
-			plateHighestId = Integer.parseInt(plateSearchResult.minus(intPlatePrefix))
-		}
-
-		def intPlateId = intPlatePrefix + String.format("%04d", plateHighestId + 1)
+		def intPlateId = plateService.getNextHighestPlateId(intPlatePrefix, oldPlateInstance.getPlateType())
+		
 		newPlateInstance.setIntPlateId(intPlateId)
 
 		if (!newPlateInstance.save(flush: true)) {
