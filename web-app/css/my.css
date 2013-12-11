@@ -69,3 +69,7 @@ input[type="submit"].submit-dropdown:hover {
 
 	text-align: left;
 }
+
+.page-alert {
+	z-index: auto;
+}
