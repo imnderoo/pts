@@ -127,6 +127,15 @@ class PlateController {
 		// Fetch Plate Manifest And Create Excel Object
 
 		def file = request.getFile("file")
+		def wb
+
+		try {
+			wb = WorkbookFactory.create(file.getInputStream())
+		} catch(e) {
+			flash.message = "Error: Invalid file format. Make sure it is an Excel spreadsheet."
+			render(view: 'create96', model: [plateInstance: new Plate(params)])
+			return
+		}
 
 		def wb = WorkbookFactory.create(file.getInputStream())
 		def sheet = wb.getSheetAt(0)
