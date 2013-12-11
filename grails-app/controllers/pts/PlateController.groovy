@@ -254,8 +254,8 @@ class PlateController {
 					println it
 				}
 
-				render(view: "save96", model: [plateInstance: plateInstance])
-
+				render(view: "create96", model: [plateInstance: plateInstance])
+				return
 			}
 		}
 
@@ -271,31 +271,47 @@ class PlateController {
 	def create384() {
 		
 		flash.message = ""
+		params.createdDate  = new Date().format('dd-MM-yyyy')
 		
-		[plateInstance: new Plate(params)]
+		[plateInstance: new Plate()]
 	}
 
 	def save384() {
-
 		
+		flash.message = ""
+				
 		// Read PlatePrefix from form and find the next highest PlateID
 		def plateType = PlateType.findByName("Plate384")
 
 		params.intPlateId = plateService.getNextHighestPlateId(params.intPlatePrefix, plateType)
-		params.extPlateId = "NA"
-		params.createdDate = new Date()
+		params.extPlateId = "N/A"
 
 		def plateInstance = new Plate(params)
-
 		plateInstance.setPlateType(plateType)
 
-		plateInstance.setQ1Plate(Plate.findByIntPlateId(params.q1Plate.name))
-		plateInstance.setQ2Plate(Plate.findByIntPlateId(params.q2Plate.name))
-		plateInstance.setQ3Plate(Plate.findByIntPlateId(params.q3Plate.name))
-		plateInstance.setQ4Plate(Plate.findByIntPlateId(params.q4Plate.name))
+		if(!params.q1Plate?.id) {		
+			flash.message = "Error: Q1 Plate " + params.q1Plate.name + " does not exist."
+		}
+		else if(!params.q2Plate?.id) {
+			flash.message = "Error: Q2 Plate " + params.q2Plate.name + " does not exist."
+			
+		}
+		else if(!params.q3Plate?.id) {
+			flash.message = "Error: Q3 Plate " + params.q3Plate.name + " does not exist."
+		}
+		else if(!params.q4Plate?.id) {
+			flash.message = " Error: Q4 Plate " + params.q4Plate.name + " does not exist."
+		}
+		
+		if (!flash.message.isEmpty())
+		{			
+			render(view: "create384", model: [plateInstance: plateInstance])
+			return
+		}
+		
 
 		plateInstance.setCreatedBy("Bob")
-
+		
 		if (!plateInstance.save(flush:true))
 		{
 			plateInstance.errors.each {
@@ -304,11 +320,9 @@ class PlateController {
 		}
 
 		plateInstance.refresh()
-
 		plateService.printLabel(plateInstance)
 
 		redirect(action: "show", id: plateInstance.id)
-	
 	}
 
 	def show(Long id) {
