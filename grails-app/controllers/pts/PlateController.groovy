@@ -137,8 +137,15 @@ class PlateController {
 			return
 		}
 
-		def wb = WorkbookFactory.create(file.getInputStream())
 		def sheet = wb.getSheetAt(0)
+
+		if (!sheet.getRow(1).getCell(0).getStringCellValue().equalsIgnoreCase("Primary Contact name:") || !sheet.getRow(5).getCell(0).getStringCellValue().equalsIgnoreCase("Plate ID"))
+		{
+			flash.message = "Error: Invalid manifest file. Make sure it is the correct Manifest file."
+			render(view: 'create96', model: [plateInstance: new Plate(params)])
+			return
+		}
+
 		def row
 		def cell
 
