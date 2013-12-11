@@ -8,7 +8,7 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField class="input-small" name="intPlatePrefix" maxlength="8" value="${params.intPlatePrefix}" required="" pattern="[a-zA-Z]{4}" maxlength="4" placeholder="A-Z"/>
+					<g:textField class="input-small" name="intPlatePrefix" value="${params.intPlatePrefix}" required="" pattern="[a-zA-Z]{4}" maxlength="4" placeholder="4-letters"/>
 				</div>
 			</div>
 
@@ -98,7 +98,7 @@
 				<tr>
 					<td>
 						<h5>Quadrant 1:</h5>
-						<g:textField id="q1Plate.name" name="q1Plate.name" pattern="^[a-zA-Z]{2,3}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q1 PlateID" value="${params.q1Plate?.name}"
+						<g:textField id="q1Plate.name" name="q1Plate.name" pattern="^[a-zA-Z]{2}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q1 PlateID" value="${params.q1Plate?.name}"
 							required="" />
 						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q1Plate', 'error')} required">
 							<g:hiddenField id="q1Plate.id" name="q1Plate.id" class="searchPlate96Result" value="${params.q1Plate?.id}" />
@@ -107,7 +107,7 @@
 					</td>
 					<td>
 						<h5>Quadrant 2:</h5>
-						<g:textField id="q2Plate.name" name="q2Plate.name" pattern="^[a-zA-Z]{2,3}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q2 PlateID" value="${params.q2Plate?.name}"
+						<g:textField id="q2Plate.name" name="q2Plate.name" pattern="^[a-zA-Z]{2}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q2 PlateID" value="${params.q2Plate?.name}"
 							required="" />
 						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q2Plate', 'error')} required">
 							<g:hiddenField id="q2Plate.id" name="q2Plate.id" class="searchPlate96Result" value="${params.q2Plate?.id}" />
@@ -118,7 +118,7 @@
 				<tr>
 					<td>
 						<h5>Quadrant 3:</h5>
-						<g:textField id="q3Plate.name" name="q3Plate.name" pattern="^[a-zA-Z]{2,3}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q3 PlateID" value="${params.q3Plate?.name}"
+						<g:textField id="q3Plate.name" name="q3Plate.name" pattern="^[a-zA-Z]{2}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q3 PlateID" value="${params.q3Plate?.name}"
 							required="" />
 						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q3Plate', 'error')} required">
 							<g:hiddenField id="q3Plate.id" name="q3Plate.id" class="searchPlate96Result" value="${params.q3Plate?.id}" />
@@ -127,7 +127,7 @@
 					</td>
 					<td>
 						<h5>Quadrant 4:</h5>
-						<g:textField id="q4Plate.name" name="q4Plate.name" pattern="^[a-zA-Z]{2,3}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q4 PlateID" value="${params.q4Plate?.name}"
+						<g:textField id="q4Plate.name" name="q4Plate.name" pattern="^[a-zA-Z]{2}[0-9]{1,}" class="searchPlate96 input-medium" placeholder="Q4 PlateID" value="${params.q4Plate?.name}"
 							required="" />
 						<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'q4Plate', 'error')} required">
 							<g:hiddenField id="q4Plate.id" name="q4Plate.id" class="searchPlate96Result" value="${params.q4Plate?.id}" />
