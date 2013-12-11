@@ -15,9 +15,9 @@ class PlateController {
 	}
 
 	def list(Integer max) {
-		
+
 		flash.message = ""
-		
+
 		params.max = Math.min(max ?: 5, 100)
 		params.intPlateId = params.intPlateId ?: ""
 		params.extPlateId = params.extPlateId ?: ""
@@ -38,7 +38,8 @@ class PlateController {
 		flash.intPlateId = params.intPlateId
 		flash.extPlateId = params.extPlateId
 		flash.projectId = params.projectId
-
+		flash.message = plate384ListTotal + " [384]-well and " + plate96ListTotal + " [96]-well plates found"
+		
 		[plate96List: plate96List, plate96ListTotal: plate96ListTotal, plate384List: plate384List, plate384ListTotal: plate384ListTotal]
 	}
 
@@ -54,7 +55,8 @@ class PlateController {
 		flash.intPlateId = flash.intPlateId
 		flash.extPlateId = flash.extPlateId
 		flash.projectId = flash.projectId
-
+		flash.message = flash.message
+		
 		render(template:"listPlate96", model:[plate96List: plate96List, plate96ListTotal: plate96ListTotal])
 	}
 
@@ -70,6 +72,8 @@ class PlateController {
 		flash.intPlateId = flash.intPlateId
 		flash.extPlateId = flash.extPlateId
 		flash.projectId = flash.projectId
+		flash.message = flash.message
+		
 		render(template:"listPlate384", model:[plate384List: plate384List, plate384ListTotal: plate384ListTotal])
 	}
 
@@ -107,7 +111,7 @@ class PlateController {
 
 	def create96() {
 		flash.message = ""
-		
+
 		[plateInstance: new Plate(params)]
 	}
 
