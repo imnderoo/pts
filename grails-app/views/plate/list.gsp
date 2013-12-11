@@ -13,11 +13,6 @@
 		<h1>
 			<g:message code="default.list.label" args="[entityName]" />
 		</h1>
-		<g:if test="${flash.message}">
-			<div class="alert alert-info" role="status">
-				${flash.message}
-			</div>
-		</g:if>
 
 		<div class="navbar">
 			<div class="navbar-inner">

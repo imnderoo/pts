@@ -51,7 +51,7 @@
 						<li>
 							<g:link controller="Plate" action="create96">New Plate96</g:link>
 						</li>
-												<li>
+						<li>
 							<g:link controller="Plate" action="create384">New Plate384</g:link>
 						</li>
 					</ul>
@@ -69,5 +69,14 @@
 			</ul>
 		</div>
 	</div>
+
+	<g:if test="${flash.message}">
+		<div class="page-alert">
+			<div class="alert alert-info" role="status">
+				${flash.message}
+			</div>
+		</div>
+	</g:if>
+	
 </div>
 

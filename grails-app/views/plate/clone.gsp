@@ -9,11 +9,7 @@
 <body>
 	<div id="edit-plate" class="content span12 scaffold-edit" role="main">
 		<h1>Clone Plate</h1>
-		<g:if test="${flash.message}">
-			<div class="alert alert-info" role="status">
-				${flash.message}
-			</div>
-		</g:if>
+
 		<g:hasErrors bean="${plateInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${plateInstance}" var="error">

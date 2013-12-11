@@ -9,9 +9,10 @@
 <title><g:message code="default.list.label" args="[entityName]" /></title>
 </head>
 <body>
+	
 	<div id="list-sample" class="content span12 scaffold-list" role="main">
 		<h1>Samples List</h1>
-	
+
 		<div class="navbar">
 			<div class="navbar-inner">
 				<div class="container">
@@ -23,10 +24,10 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row-fluid">
 			<div id="listSample" class="span8">
-					<g:render template="listSample" />
+				<g:render template="listSample" />
 			</div>
 		</div>
 	</div>

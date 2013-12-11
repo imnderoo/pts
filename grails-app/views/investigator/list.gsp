@@ -11,31 +11,6 @@
 		<h1>
 			<g:message code="default.list.label" args="[entityName]" />
 		</h1>
-		<g:if test="${flash.message}">
-			<div class="alert alert-info" role="status">
-				${flash.message}
-			</div>
-		</g:if>
-		<%--		<table class="table table-striped table-bordered">--%>
-		<%--			<thead>--%>
-		<%--				<tr class="info">--%>
-		<%----%>
-		<%--					<g:sortableColumn property="lastName" title="${message(code: 'investigator.lastName.label', default: 'Name')}" />--%>
-		<%----%>
-		<%--				</tr>--%>
-		<%--			</thead>--%>
-		<%--			<tbody>--%>
-		<%--				<g:each in="${investigatorInstanceList}" status="i" var="investigatorInstance">--%>
-		<%--					<tr>--%>
-		<%--						<td>--%>
-		<%--							<g:link action="show" id="${investigatorInstance.id}">--%>
-		<%--								${fieldValue(bean: investigatorInstance, field: "lastName")}, ${fieldValue(bean: investigatorInstance, field: "firstName")}--%>
-		<%--							</g:link>--%>
-		<%--						</td>--%>
-		<%--					</tr>--%>
-		<%--				</g:each>--%>
-		<%--			</tbody>--%>
-		<%--		</table>--%>
 
 		<div class="accordion" id="investigatorAccordion">
 			<g:each in="${investigatorInstanceList}" status="i" var="investigatorInstance">

@@ -1,9 +1,3 @@
-<g:if test="${flash.message}">
-	<div class="alert alert-info" role="status">
-		${flash.message}
-	</div>
-</g:if>
-
 <g:if test="${sampleList}">
 
 	<table class="table table-striped table-bordered">

@@ -1,7 +1,5 @@
 <%@ page import="pts.Project" %>
 
-
-
 				<div class="fieldcontain ${hasErrors(bean: projectInstance, field: 'name', 'error')} required">
 					<div class="control-group">
 				

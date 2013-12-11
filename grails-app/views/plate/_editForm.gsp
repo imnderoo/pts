@@ -1,7 +1,6 @@
 <div class="row-fluid">
 	<div class="span5">
 
-
 		<div class="fieldcontain ${hasErrors(bean: plateInstance, field: 'intPlateId', 'error')} required">
 			<div class="control-group">
 
