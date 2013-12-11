@@ -32,6 +32,7 @@ class SampleController {
 			
 			flash.sampleId = params.sampleId
 			flash.intPlateId = params.intPlateId
+			flash.message = sampleListTotal + " samples found"
 		}
 		
 		[sampleList: sampleList, sampleListTotal: sampleListTotal]
@@ -47,6 +48,7 @@ class SampleController {
 
 		flash.sampleId = flash.sampleId
 		flash.intPlateId = flash.intPlateId
+		flash.message = sampleListTotal + " samples found"
 
 		render(template:"listSample", model:[sampleList: sampleList, sampleListTotal: sampleListTotal])
 	}
