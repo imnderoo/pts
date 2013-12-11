@@ -115,6 +115,14 @@ class PlateController {
 		[plateInstance: new Plate(params)]
 	}
 
+	def create384() {
+
+		flash.message = ""
+		params.createdDate  = new Date().format('dd-MM-yyyy')
+
+		[plateInstance: new Plate()]
+	}
+
 	def save96() {
 		// Fetch Plate Manifest And Create Excel Object
 
