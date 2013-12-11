@@ -6,7 +6,7 @@
 			<span class="required-indicator">*</span>
 		</label>
 		<div class="controls">
-			<g:textField class="input-medium" name="intPlatePrefix" maxlength="8" required="" pattern="[a-zA-Z]+" placeholder="Alphabet Only"/>
+			<g:textField class="input-small" name="intPlatePrefix" required="" pattern="[a-zA-Z]{2}" placeholder="2-letters" maxlength="2" value="${params.intPlatePrefix}"/>
 		</div>
 	</div>
 </div>
