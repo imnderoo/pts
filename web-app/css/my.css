@@ -41,6 +41,14 @@ th.desc a {
 	font-size: 12px;
 }
 
+.micro-text {
+	font-size: 8px;
+}
+
+.nano-text {
+	font-size: 5px;
+}
+
 .input-smaller {
 	width: 78px;
 }
