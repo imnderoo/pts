@@ -1,7 +1,7 @@
 <div class="navbar navbar-static-top navbar-inverse">
 	<div class="navbar-inner">
 		<div class="container">
-			<a class="brand" href="/pts">PTS&nbsp;<i class="iconic-beaker"></i></a>
+			<a class="brand" href="/pts"><i class="iconic-layers"></i>&nbsp;PTS</a>
 
 			<ul class="nav pull-right">
 				<li class="dropdown">
@@ -39,6 +39,25 @@
 						</li>
 					</ul>
 				</li>
+				
+					<a href="#" class="btn btn-inverse" data-toggle="dropdown"><i class="icon-th icon-white"></i></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="http://172.31.104.12/sts2"><i class="iconic-beaker"></i>&nbsp;STS2</a>
+						</li>
+						<li class="disabled">
+							<a href="http://172.31.104.12/pts"><i class="iconic-layers"></i>&nbsp;PTS</a>
+						</li>
+						<li>
+							<a href="http://172.31.104.12/seqDB"><i class="iconic-box"></i>&nbsp;SeqDB</a>
+						</li>
+						<li>
+							<a href="http://172.31.104.12/serviceData"><i class="iconic-document-alt-stroke"></i>&nbsp;Service Data</a>
+						</li>
+						<li>
+							<a href="http://172.31.104.12/ap"><i class="iconic-aperture"></i>&nbsp;Analysis Portal</a>
+						</li>
+					</ul>
 
 			</ul>
 			<ul class="nav">
