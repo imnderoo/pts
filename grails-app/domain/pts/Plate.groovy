@@ -28,7 +28,7 @@ class Plate {
 
 		intPlateId size: 1..8, blank: false, nullable: false, unique: true
 		// ExtPlateId is not set to unique because we may test duplicates of the same plate (under different conditions)
-		extPlateId size: 1..8, blank: false, nullable: false
+		extPlateId size: 1..60, blank: false, nullable: false
 		plateType nullable: false
 
 		createdBy size: 1..24, nullable: false
