@@ -41,7 +41,7 @@
 							<g:message code="plate.extPlateId.label" default="Ext Plate Id" />
 						</label>
 						<div class="controls">
-							<span class="uneditable-input" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}"
+							<span class="uneditable-input input-xlarge small-text" aria-labelledby="extPlateId-label"><g:fieldValue bean="${plateInstance}"
 									field="extPlateId" /></span>
 						</div>
 					</div>

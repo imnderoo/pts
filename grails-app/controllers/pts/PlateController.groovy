@@ -1,5 +1,6 @@
 package pts
 
+import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.dao.DataIntegrityViolationException
@@ -223,8 +224,12 @@ class PlateController {
 			samplesInPlateMap['wellNumber'] = rowNo - 5
 
 			cell = sheet.getRow(rowNo).getCell(2, Row.CREATE_NULL_AS_BLANK)
+			//def cellTypeValue = cell.getCellType()
+			cell.setCellType(Cell.CELL_TYPE_STRING)
 			samplesInPlateMap['sampleId'] = cell.getStringCellValue()
-
+			
+			//println(samplesInPlateMap['sampleId'])
+			
 			cell = sheet.getRow(rowNo).getCell(3, Row.CREATE_NULL_AS_BLANK)
 			samplesInPlateMap['sampleVol'] = cell.getNumericCellValue()
 
@@ -280,8 +285,7 @@ class PlateController {
 		// Read PlatePrefix from form and find the next highest PlateID
 		def plateType = PlateType.findByName("Plate384")
 
-		params.intPlateId = plateService.getNextHighestPlateId(params.intPlatePrefix, plateType)
-		params.extPlateId = "N/A"
+		params.intPlateId = plateService.getNextHighestPlateId(params.intPlatePrefix, plateType)	
 
 		def plateInstance = new Plate(params)
 		plateInstance.setPlateType(plateType)
@@ -323,6 +327,8 @@ class PlateController {
 	}
 
 	def show(Long id) {
+		
+		flash.message = ""
 		def plateInstance = Plate.get(id)
 		if (!plateInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'plate.label', default: 'Plate'), id])

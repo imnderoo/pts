@@ -45,11 +45,11 @@
 		</div>
 
 		<div class="row-fluid">
-			<div id="listPlate384" class="span7">
+			<div id="listPlate384" class="span6">
 				<g:render template="listPlate384" />
 			</div>
 
-			<div id="listPlate96" class="span5">
+			<div id="listPlate96" class="span6">
 				<g:render template="listPlate96" />
 			</div>
 		</div>

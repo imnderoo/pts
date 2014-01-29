@@ -1,6 +1,6 @@
 <h3>384-well</h3>
 <div class="scaffold-list">
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered small-text">
 		<thead>
 			<tr class="info">
 				<g:sortableColumn property="intPlateId" title="${message(code: 'plate.intPlateId.label', default: 'Internal ID')}" />

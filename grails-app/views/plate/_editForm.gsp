@@ -22,7 +22,7 @@
 					<span class="required-indicator">*</span>
 				</label>
 				<div class="controls">
-					<g:textField name="extPlateId" maxlength="8" required="" readonly="true" value="${plateInstance?.extPlateId}" />
+					<g:textField class="input-xlarge small-text" name="extPlateId" maxlength="8" required="" readonly="true" value="${plateInstance?.extPlateId}" />
 				</div>
 			</div>
 		</div>
