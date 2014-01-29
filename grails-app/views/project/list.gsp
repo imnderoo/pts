@@ -23,8 +23,7 @@
 					<g:sortableColumn property="investigator.lastName"
 						title="${message(code: 'project.investigator.labelr', default: 'Investigator')}" />
 
-					<%--						<th><g:message code="project.investigator.label" default="Investigator" /></th>--%>
-
+					<th># Plates</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -40,7 +39,15 @@
 						<td>
 							${fieldValue(bean: projectInstance, field: "investigator")}
 						</td>
-
+						
+						<td>
+							<g:set var="plates" value="${0}"/>
+						
+							<g:each in="${projectInstance.plate}">
+									<g:set var="plates" value="${plates + 1}"/>
+							</g:each>
+							${plates}
+						</td>
 					</tr>
 				</g:each>
 			</tbody>
